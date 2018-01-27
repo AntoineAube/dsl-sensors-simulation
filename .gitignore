@@ -17,3 +17,7 @@ target/
 
 #emacs
 *~
+
+# Docker compose generated files.
+grafana-data/*
+influxdb-data/*
