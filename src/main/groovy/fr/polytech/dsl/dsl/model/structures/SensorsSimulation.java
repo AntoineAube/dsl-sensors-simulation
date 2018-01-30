@@ -10,9 +10,11 @@ public class SensorsSimulation implements VisitableModel {
 
     private Configuration configuration;
     private final List<Replay> replays;
+    private final List<Sensor> sensors;
 
     public SensorsSimulation() {
         replays = new ArrayList<>();
+        sensors = new ArrayList<>();
 
         configuration = new Configuration();
     }
@@ -27,6 +29,10 @@ public class SensorsSimulation implements VisitableModel {
 
     public List<Replay> getReplays() {
         return replays;
+    }
+
+    public List<Sensor> getSensors() {
+        return sensors;
     }
 
     @Override

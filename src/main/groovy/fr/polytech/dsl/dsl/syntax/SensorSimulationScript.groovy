@@ -27,4 +27,13 @@ abstract class SensorSimulationScript extends Script {
             replayDescription()
         }
     }
+
+    def lot(String lotName, Closure lotDescription) {
+        def lotScope = new LotScope(((SensorSimulationBinding) getBinding()), lotName)
+
+        lotDescription.delegate = lotScope
+        lotDescription.resolveStrategy = Closure.DELEGATE_FIRST
+
+        lotDescription()
+    }
 }

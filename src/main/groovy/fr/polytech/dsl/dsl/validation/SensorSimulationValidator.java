@@ -3,6 +3,7 @@ package fr.polytech.dsl.dsl.validation;
 import fr.polytech.dsl.dsl.model.ModelVisitor;
 import fr.polytech.dsl.dsl.model.structures.Configuration;
 import fr.polytech.dsl.dsl.model.structures.Replay;
+import fr.polytech.dsl.dsl.model.structures.Sensor;
 import fr.polytech.dsl.dsl.model.structures.SensorsSimulation;
 
 import java.util.Arrays;
@@ -36,6 +37,9 @@ public class SensorSimulationValidator implements ModelVisitor {
         sensorsSimulation.getConfiguration().accept(this);
 
         sensorsSimulation.getReplays().forEach(this::visit);
+
+        // TODO Implement the name verification.
+        sensorsSimulation.getSensors().forEach(this::visit);
     }
 
     @Override
@@ -69,5 +73,10 @@ public class SensorSimulationValidator implements ModelVisitor {
         if (locations.getSensorsLocation() == null) {
             throw new InvalidModelException("Sensors location is not given", replay);
         }
+    }
+
+    @Override
+    public void visit(Sensor sensor) {
+        // TODO Implement this.
     }
 }

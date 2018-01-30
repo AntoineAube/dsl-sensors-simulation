@@ -5,6 +5,7 @@ import fr.polytech.dsl.dsl.execution.replays.ReplayReaderFactory;
 import fr.polytech.dsl.dsl.model.ModelVisitor;
 import fr.polytech.dsl.dsl.model.structures.Configuration;
 import fr.polytech.dsl.dsl.model.structures.Replay;
+import fr.polytech.dsl.dsl.model.structures.Sensor;
 import fr.polytech.dsl.dsl.model.structures.SensorsSimulation;
 
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class SensorsSimulationExecutor implements ModelVisitor {
         sensorsSimulation.getConfiguration().accept(this);
 
         sensorsSimulation.getReplays().forEach(this::visit);
+
+        sensorsSimulation.getSensors().forEach(this::visit);
     }
 
     @Override
@@ -48,9 +51,16 @@ public class SensorsSimulationExecutor implements ModelVisitor {
         }
     }
 
+    @Override
+    public void visit(Sensor sensor) {
+        // TODO Implement this.
+    }
+
     public void sendMeasures() {
         MeasureSerializer serializer = new MeasureSerializer(databaseConfiguration);
 
-        serializer.saveMeasures(measures);
+        if (!measures.isEmpty()) {
+            serializer.saveMeasures(measures);
+        }
     }
 }
