@@ -26,9 +26,8 @@ public class CSVReplayReader extends ReplayReader<Integer> {
             long time = Long.parseLong(record.get(getReplay().getLocations().getTimesLocation() - 1));
             Object value = parseValue(record.get(getReplay().getLocations().getValuesLocation() - 1));
             String sensor = record.get(getReplay().getLocations().getSensorsLocation() - 1);
-            String lot = record.get(getReplay().getLocations().getLotsLocation() - 1);
 
-            measures.add(new Measure(time, value, sensor, lot));
+            measures.add(new Measure(time, value, sensor));
         }
 
         return measures;

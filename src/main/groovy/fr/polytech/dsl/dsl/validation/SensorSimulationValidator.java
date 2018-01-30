@@ -18,8 +18,16 @@ public class SensorSimulationValidator implements ModelVisitor {
             throw new InvalidModelException("Database location is null", configuration);
         }
 
+        if (configuration.getDatabaseLocation().isEmpty()) {
+            throw new InvalidModelException("Database location is empty", configuration);
+        }
+
         if (configuration.getDatabaseName() == null) {
             throw new InvalidModelException("Database name is null", configuration);
+        }
+
+        if (configuration.getDatabaseName().isEmpty()) {
+            throw new InvalidModelException("Database name is name", configuration);
         }
     }
 
@@ -60,10 +68,6 @@ public class SensorSimulationValidator implements ModelVisitor {
 
         if (locations.getSensorsLocation() == null) {
             throw new InvalidModelException("Sensors location is not given", replay);
-        }
-
-        if (locations.getLotsLocation() == null) {
-            throw new InvalidModelException("Lots location is not given", replay);
         }
     }
 }

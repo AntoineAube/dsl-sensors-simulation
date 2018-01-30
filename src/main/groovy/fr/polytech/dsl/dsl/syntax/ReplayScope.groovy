@@ -10,7 +10,6 @@ class ReplayScope {
     final def times
     final def values
     final def sensors
-    final def lots
 
     private Replay replay
 
@@ -19,7 +18,6 @@ class ReplayScope {
         times = new ChangeableValue({ value -> replay.locations.timesLocation = value })
         values = new ChangeableValue({ value -> replay.locations.valuesLocation = value })
         sensors = new ChangeableValue({ value -> replay.locations.sensorsLocation = value })
-        lots = new ChangeableValue({ value -> replay.locations.lotsLocation = value })
 
         this.replay = replay
     }

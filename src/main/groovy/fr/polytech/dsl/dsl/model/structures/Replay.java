@@ -52,7 +52,6 @@ public class Replay<L> implements VisitableModel {
         private L timesLocation;
         private L valuesLocation;
         private L sensorsLocation;
-        private L lotsLocation;
 
         public L getTimesLocation() {
             return timesLocation;
@@ -76,14 +75,6 @@ public class Replay<L> implements VisitableModel {
 
         public void setSensorsLocation(L sensorsLocation) {
             this.sensorsLocation = sensorsLocation;
-        }
-
-        public L getLotsLocation() {
-            return lotsLocation;
-        }
-
-        public void setLotsLocation(L lotsLocation) {
-            this.lotsLocation = lotsLocation;
         }
     }
 }

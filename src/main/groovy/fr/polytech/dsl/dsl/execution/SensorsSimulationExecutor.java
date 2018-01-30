@@ -51,6 +51,6 @@ public class SensorsSimulationExecutor implements ModelVisitor {
     public void sendMeasures() {
         MeasureSerializer serializer = new MeasureSerializer(databaseConfiguration);
 
-        measures.forEach(serializer::saveMeasure);
+        serializer.saveMeasures(measures);
     }
 }

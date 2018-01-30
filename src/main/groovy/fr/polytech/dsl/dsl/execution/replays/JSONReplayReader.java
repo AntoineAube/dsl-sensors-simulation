@@ -39,8 +39,7 @@ public class JSONReplayReader extends ReplayReader<String> {
             measures.add(new Measure(
                     (Long) measureDocument.get(locations.getTimesLocation()),
                     measureDocument.get(locations.getValuesLocation()),
-                    (String) measureDocument.get(locations.getSensorsLocation()),
-                    (String) measureDocument.get(locations.getLotsLocation())));
+                    (String) measureDocument.get(locations.getSensorsLocation())));
         }
 
         return measures;

@@ -5,13 +5,11 @@ public class Measure {
     private long timestamp;
     private final Object value;
     private final String sensorName;
-    private final String lotName;
 
-    public Measure(long timestamp, Object value, String sensorName, String lotName) {
+    public Measure(long timestamp, Object value, String sensorName) {
         this.timestamp = timestamp;
         this.value = value;
         this.sensorName = sensorName;
-        this.lotName = lotName;
     }
 
     public long getTimestamp() {
@@ -28,9 +26,5 @@ public class Measure {
 
     public String getSensorName() {
         return sensorName;
-    }
-
-    public String getLotName() {
-        return lotName;
     }
 }

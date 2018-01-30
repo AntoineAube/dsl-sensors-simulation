@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public abstract class ReplayReader<L> {
 
     private static final List<String> STRING_BOOLEANS = Arrays.asList("true", "false");
-    private static final Pattern INTEGER_PATTERN = Pattern.compile("^\\d+$");
+    private static final Pattern INTEGER_PATTERN = Pattern.compile("^[\\-]?\\d+$");
 
     private final Replay<L> replay;
 
