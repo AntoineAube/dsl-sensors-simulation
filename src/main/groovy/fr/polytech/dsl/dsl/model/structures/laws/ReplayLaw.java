@@ -1,5 +1,6 @@
 package fr.polytech.dsl.dsl.model.structures.laws;
 
+import fr.polytech.dsl.dsl.model.ModelVisitor;
 import fr.polytech.dsl.dsl.model.structures.simulations.ReplaySimulation;
 import fr.polytech.dsl.dsl.model.structures.simulations.Simulation;
 
@@ -10,9 +11,9 @@ public class ReplayLaw extends Law {
     private String targetedSensor;
     private Class valuesType;
 
-    private Object timesIndex;
-    private Object valuesIndex;
-    private Object sensorsIndex;
+    private ColumnIndex timesIndex;
+    private ColumnIndex valuesIndex;
+    private ColumnIndex sensorsIndex;
 
     public ReplayLaw(String sourceFilePath) {
         this.sourceFilePath = sourceFilePath;
@@ -38,32 +39,66 @@ public class ReplayLaw extends Law {
         this.targetedSensor = targetedSensor;
     }
 
-    public Object getTimesIndex() {
+    public ColumnIndex getTimesIndex() {
         return timesIndex;
     }
 
-    public void setTimesIndex(Object timesIndex) {
-        this.timesIndex = timesIndex;
+    public void setTimesIndex(Integer index) {
+        timesIndex = new ColumnIndex(index);
     }
 
-    public Object getValuesIndex() {
+    public void setTimesIndex(String index) {
+        timesIndex = new ColumnIndex(index);
+    }
+
+    public ColumnIndex getValuesIndex() {
         return valuesIndex;
     }
 
-    public void setValuesIndex(Object valuesIndex) {
-        this.valuesIndex = valuesIndex;
+    public void setValuesIndex(Integer index) {
+        valuesIndex = new ColumnIndex(index);
     }
 
-    public Object getSensorsIndex() {
+    public void setValuesIndex(String index) {
+        valuesIndex = new ColumnIndex(index);
+    }
+
+    public ColumnIndex getSensorsIndex() {
         return sensorsIndex;
     }
 
-    public void setSensorsIndex(Object sensorsIndex) {
-        this.sensorsIndex = sensorsIndex;
+    public void setSensorsIndex(Integer index) {
+        sensorsIndex = new ColumnIndex(index);
+    }
+
+    public void setSensorsIndex(String index) {
+        sensorsIndex = new ColumnIndex(index);
     }
 
     @Override
     public Simulation createBlankSimulation() {
         return new ReplaySimulation(this);
+    }
+
+    @Override
+    public void accept(ModelVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    public static class ColumnIndex {
+
+        private final Object index;
+
+        private ColumnIndex(Integer index) {
+            this.index = index;
+        }
+
+        private ColumnIndex(String index) {
+            this.index = index;
+        }
+
+        public Object getIndex() {
+            return index;
+        }
     }
 }

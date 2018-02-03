@@ -52,7 +52,7 @@ class LawsScope {
         def is(Law law) {
             law.name = lawName
 
-            binding.sensorsSimulation.laws.laws.add(law)
+            binding.sensorsSimulation.laws.add(law)
         }
     }
 }

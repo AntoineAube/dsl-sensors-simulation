@@ -30,6 +30,17 @@ class SensorSimulationDSL {
     }
 
     void evaluate(File scriptFile) {
+        buildModel(scriptFile)
+
+        println binding.sensorsSimulation.laws.size()
+        println binding.sensorsSimulation.simulation.lots.get(0).simulations.size()
+
+       // validateModel()
+
+       // executeModel()
+    }
+
+    private buildModel(File scriptFile) {
         Script script = shell.parse(scriptFile)
 
         script.setBinding(binding)
@@ -37,13 +48,6 @@ class SensorSimulationDSL {
         use (TimeCategory) {
             script.run()
         }
-
-        println binding.sensorsSimulation.laws.laws.size()
-        println binding.sensorsSimulation.simulation.lots.get(0).simulations.size()
-
-       // validateModel()
-
-       // executeModel()
     }
 
     private void validateModel() {

@@ -12,7 +12,7 @@ class SensorSimulationBinding extends Binding {
     }
 
     Optional<Law> findLaw(String lawName) {
-        List<Law> laws = sensorsSimulation.laws.laws
+        List<Law> laws = sensorsSimulation.laws
 
         for (Law law : laws) {
             if (law.name == lawName) {

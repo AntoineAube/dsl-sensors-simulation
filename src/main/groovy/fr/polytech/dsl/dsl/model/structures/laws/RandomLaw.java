@@ -1,5 +1,6 @@
 package fr.polytech.dsl.dsl.model.structures.laws;
 
+import fr.polytech.dsl.dsl.model.ModelVisitor;
 import fr.polytech.dsl.dsl.model.structures.simulations.RandomSimulation;
 import fr.polytech.dsl.dsl.model.structures.simulations.Simulation;
 
@@ -20,5 +21,10 @@ public class RandomLaw extends Law {
     @Override
     public Simulation createBlankSimulation() {
         return new RandomSimulation(this);
+    }
+
+    @Override
+    public void accept(ModelVisitor visitor) {
+        visitor.visit(this);
     }
 }

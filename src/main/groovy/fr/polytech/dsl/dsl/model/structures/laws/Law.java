@@ -1,9 +1,9 @@
 package fr.polytech.dsl.dsl.model.structures.laws;
 
-import fr.polytech.dsl.dsl.model.Model;
+import fr.polytech.dsl.dsl.model.VisitableModel;
 import fr.polytech.dsl.dsl.model.structures.simulations.Simulation;
 
-public abstract class Law implements Model {
+public abstract class Law implements VisitableModel {
 
     private String name;
 

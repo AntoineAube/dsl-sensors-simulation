@@ -4,6 +4,7 @@ import fr.polytech.dsl.dsl.SensorSimulationBinding
 import fr.polytech.dsl.dsl.model.structures.Lot
 import fr.polytech.dsl.dsl.model.structures.laws.Law
 import fr.polytech.dsl.dsl.model.structures.laws.UnknownLaw
+import fr.polytech.dsl.dsl.model.structures.simulations.Simulation
 
 class LotScope {
 
@@ -21,7 +22,10 @@ class LotScope {
                 Optional<Law> associatedLaw = binding.findLaw(lawName)
 
                 if (associatedLaw.isPresent()) {
-                    lot.addSimulations(associatedLaw.get().createBlankSimulation(), sensorsNumber)
+                    Simulation simulation = associatedLaw.get().createBlankSimulation()
+                    simulation.sensorName = sensorName
+
+                    lot.addSimulations(simulation, sensorsNumber)
                 } else {
                     Law unknown = new UnknownLaw()
                     unknown.name = lawName
