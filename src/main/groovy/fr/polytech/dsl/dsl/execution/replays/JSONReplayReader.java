@@ -1,24 +1,12 @@
 package fr.polytech.dsl.dsl.execution.replays;
 
-import fr.polytech.dsl.dsl.execution.Measure;
-import fr.polytech.dsl.dsl.model.structures.Replay;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class JSONReplayReader extends ReplayReader<String> {
 
-    public JSONReplayReader(Replay<String> replay) {
-        super(replay);
+    public JSONReplayReader() {
+        //super(replay);
     }
 
-    @Override
+   /* @Override
     List<Measure> readMeasures() throws IOException {
         JSONParser parser = new JSONParser();
 
@@ -43,5 +31,5 @@ public class JSONReplayReader extends ReplayReader<String> {
         }
 
         return measures;
-    }
+    }*/
 }

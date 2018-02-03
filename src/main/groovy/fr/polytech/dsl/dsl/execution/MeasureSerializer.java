@@ -1,21 +1,12 @@
 package fr.polytech.dsl.dsl.execution;
 
-import fr.polytech.dsl.dsl.model.structures.Configuration;
-import org.influxdb.InfluxDB;
-import org.influxdb.InfluxDBFactory;
-import org.influxdb.dto.BatchPoints;
-import org.influxdb.dto.Point;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 public class MeasureSerializer {
 
     private static final String RETENTION_POLICY = "retention_policy";
     private static final String VALUE_FIELD = "value";
 
     private boolean initialized;
-    private final Configuration databaseConfiguration;
+    /*private final Configuration databaseConfiguration;
 
     public MeasureSerializer(Configuration databaseConfiguration) {
         this.databaseConfiguration = databaseConfiguration;
@@ -86,5 +77,5 @@ public class MeasureSerializer {
         initialized = true;
 
         connection.close();
-    }
+    }*/
 }

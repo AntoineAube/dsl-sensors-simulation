@@ -1,23 +1,12 @@
 package fr.polytech.dsl.dsl.execution.replays;
 
-import fr.polytech.dsl.dsl.execution.Measure;
-import fr.polytech.dsl.dsl.model.structures.Replay;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVRecord;
-
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.List;
-
 public class CSVReplayReader extends ReplayReader<Integer> {
 
-    public CSVReplayReader(Replay<Integer> replay) {
-        super(replay);
+    public CSVReplayReader() {
+        super();
     }
 
-    @Override
+    /*@Override
     List<Measure> readMeasures() throws IOException {
         Reader in = new FileReader(getReplay().getSourceLocation());
 
@@ -31,5 +20,5 @@ public class CSVReplayReader extends ReplayReader<Integer> {
         }
 
         return measures;
-    }
+    }*/
 }

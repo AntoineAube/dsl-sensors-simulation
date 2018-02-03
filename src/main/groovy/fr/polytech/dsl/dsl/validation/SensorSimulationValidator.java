@@ -1,19 +1,13 @@
 package fr.polytech.dsl.dsl.validation;
 
-import fr.polytech.dsl.dsl.model.ModelVisitor;
-import fr.polytech.dsl.dsl.model.structures.Configuration;
-import fr.polytech.dsl.dsl.model.structures.Replay;
-import fr.polytech.dsl.dsl.model.structures.Sensor;
-import fr.polytech.dsl.dsl.model.structures.SensorsSimulation;
-
 import java.util.Arrays;
 import java.util.List;
 
-public class SensorSimulationValidator implements ModelVisitor {
+public class SensorSimulationValidator {
 
     private static final List<String> AUTHORIZED_REPLAY_FORMAT = Arrays.asList("csv", "json");
 
-    @Override
+   /* @Override
     public void visit(Configuration configuration) {
         if (configuration.getDatabaseLocation() == null) {
             throw new InvalidModelException("Database location is null", configuration);
@@ -78,5 +72,5 @@ public class SensorSimulationValidator implements ModelVisitor {
     @Override
     public void visit(Sensor sensor) {
         // TODO Implement this.
-    }
+    }*/
 }

@@ -1,42 +1,20 @@
 package fr.polytech.dsl.dsl.model.structures;
 
-import fr.polytech.dsl.dsl.model.VisitableModel;
-import fr.polytech.dsl.dsl.model.ModelVisitor;
+public class SensorsSimulation {
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SensorsSimulation implements VisitableModel {
-
-    private Configuration configuration;
-    private final List<Replay> replays;
-    private final List<Sensor> sensors;
+    private final KnownLawsRegister laws;
+    private final SimulationDescription simulation;
 
     public SensorsSimulation() {
-        replays = new ArrayList<>();
-        sensors = new ArrayList<>();
-
-        configuration = new Configuration();
+        laws = new KnownLawsRegister();
+        simulation = new SimulationDescription();
     }
 
-    public void setConfiguration(Configuration configuration) {
-        this.configuration = configuration;
+    public KnownLawsRegister getLaws() {
+        return laws;
     }
 
-    public Configuration getConfiguration() {
-        return configuration;
-    }
-
-    public List<Replay> getReplays() {
-        return replays;
-    }
-
-    public List<Sensor> getSensors() {
-        return sensors;
-    }
-
-    @Override
-    public void accept(ModelVisitor visitor) {
-        visitor.visit(this);
+    public SimulationDescription getSimulation() {
+        return simulation;
     }
 }

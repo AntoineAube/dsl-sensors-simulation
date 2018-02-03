@@ -1,7 +1,15 @@
-replay (csv: 'samples/day.csv') {
-    times in 1
-    values in 2
-    sensors in 3
+laws {
+    law 'temperature law' is replay('sample/day.csv') {
+        fetch 'temperature' whose values are Integer
 
-    offset 1.year
+        times in 1
+        values in 2
+        sensors in 3
+    }
+}
+
+simulation {
+    lot ('School') {
+        contains 3 sensors 'temperature' following 'temperature law'
+    }
 }

@@ -1,28 +1,24 @@
 package fr.polytech.dsl.dsl.model.structures.laws;
 
-import fr.polytech.dsl.dsl.syntax.laws.RandomScope;
+import fr.polytech.dsl.dsl.model.structures.simulations.RandomSimulation;
+import fr.polytech.dsl.dsl.model.structures.simulations.Simulation;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class RandomLaw implements Law {
+public class RandomLaw extends Law {
 
-    private List<Object> choices;
+    private List<Object> possibleValues;
 
-    public RandomLaw() {
-        this.choices = new ArrayList<>();
+    public RandomLaw(List<Object> possibleValues) {
+        this.possibleValues = possibleValues;
     }
 
-    public List<Object> getChoices() {
-        return choices;
-    }
-
-    public void setChoices(List<Object> choices) {
-        this.choices = choices;
+    public List<Object> getPossibleValues() {
+        return possibleValues;
     }
 
     @Override
-    public RandomScope getLawScope() {
-        return new RandomScope(this);
+    public Simulation createBlankSimulation() {
+        return new RandomSimulation(this);
     }
 }

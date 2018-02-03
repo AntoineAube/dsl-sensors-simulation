@@ -1,7 +1,5 @@
 package fr.polytech.dsl.dsl
 
-import fr.polytech.dsl.dsl.execution.SensorsSimulationExecutor
-import fr.polytech.dsl.dsl.validation.SensorSimulationValidator
 import groovy.time.TimeCategory
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.codehaus.groovy.control.customizers.SecureASTCustomizer
@@ -40,20 +38,23 @@ class SensorSimulationDSL {
             script.run()
         }
 
-        validateModel()
+        println binding.sensorsSimulation.laws.laws.size()
+        println binding.sensorsSimulation.simulation.lots.get(0).simulations.size()
 
-        executeModel()
+       // validateModel()
+
+       // executeModel()
     }
 
     private void validateModel() {
-        binding.sensorsSimulation.accept(new SensorSimulationValidator())
+     //   binding.sensorsSimulation.accept(new SensorSimulationValidator())
     }
 
     private void executeModel() {
-        SensorsSimulationExecutor executor = new SensorsSimulationExecutor()
+      //  SensorsSimulationExecutor executor = new SensorsSimulationExecutor()
 
-        binding.sensorsSimulation.accept(executor)
+       // binding.sensorsSimulation.accept(executor)
 
-        executor.sendMeasures()
+       // executor.sendMeasures()
     }
 }
