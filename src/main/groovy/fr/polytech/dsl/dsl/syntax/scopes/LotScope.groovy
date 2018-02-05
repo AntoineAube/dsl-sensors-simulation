@@ -5,6 +5,7 @@ import fr.polytech.dsl.dsl.model.structures.Lot
 import fr.polytech.dsl.dsl.model.structures.laws.Law
 import fr.polytech.dsl.dsl.model.structures.laws.UnknownLaw
 import fr.polytech.dsl.dsl.model.structures.simulations.Simulation
+import fr.polytech.dsl.dsl.model.structures.simulations.UnknownSimulation
 
 class LotScope {
 
@@ -21,17 +22,25 @@ class LotScope {
             [following: {String lawName ->
                 Optional<Law> associatedLaw = binding.findLaw(lawName)
 
+                Law unknown = new UnknownLaw()
+                unknown.name = lawName
+                Simulation simulation = unknown.createBlankSimulation()
+
                 if (associatedLaw.isPresent()) {
-                    Simulation simulation = associatedLaw.get().createBlankSimulation()
+                    simulation = associatedLaw.get().createBlankSimulation()
                     simulation.sensorName = sensorName
 
                     lot.addSimulations(simulation, sensorsNumber)
                 } else {
-                    Law unknown = new UnknownLaw()
-                    unknown.name = lawName
-
                     lot.addSimulations(unknown.createBlankSimulation(), sensorsNumber)
                 }
+
+                [modifiedBy: {Closure simulationModifiers ->
+                    simulationModifiers.delegate = simulation.createSimulationScope()
+                    simulationModifiers.resolveStrategy = DELEGATE_FIRST
+
+                    simulationModifiers()
+                }]
             }]
         }]
     }

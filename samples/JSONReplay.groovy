@@ -10,7 +10,7 @@ laws {
 
 simulation {
     lot ('School') {
-        contains 3 sensors 'temperature' following 'temperature law' with {
+        contains 3 sensors 'temperature' following 'temperature law' modifiedBy {
             offset 1.year
             noise 1..10
         }
