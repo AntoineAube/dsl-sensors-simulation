@@ -1,4 +1,4 @@
-package fr.polytech.dsl.dsl.validation;
+package fr.polytech.dsl.dsl.validation.reporting;
 
 import fr.polytech.dsl.dsl.model.VisitableModel;
 
@@ -17,6 +17,10 @@ public class ValidationReport {
         return reportedEntries;
     }
 
+    public boolean containsErrors() {
+        return reportedEntries.stream().anyMatch(entry -> entry.status == ValidationStatus.ERROR);
+    }
+
     public static Entry.Builder entry() {
         return Entry.builder();
     }
@@ -33,7 +37,7 @@ public class ValidationReport {
                 .model(involvedModel);
     }
 
-    private static class Entry {
+    public static class Entry {
 
         private final ValidationStatus status;
         private final VisitableModel involvedModel;

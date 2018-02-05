@@ -1,5 +1,5 @@
 laws {
-    law 'temperature law' is replay('sample/day.csv') {
+    law 'temperature law' is replay('samples/day.csv') {
         fetch 'temperature' whose values are Integer
 
         times in 1

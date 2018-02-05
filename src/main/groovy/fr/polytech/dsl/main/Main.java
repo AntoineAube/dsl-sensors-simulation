@@ -1,6 +1,7 @@
 package fr.polytech.dsl.main;
 
 import fr.polytech.dsl.dsl.SensorSimulationDSL;
+import fr.polytech.dsl.dsl.validation.ModelValidationException;
 import org.apache.commons.cli.*;
 
 import java.io.File;
@@ -9,7 +10,7 @@ public class Main {
 
     private static final String SCRIPT_FILE = "scriptFile";
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) throws ParseException, ModelValidationException {
         CommandLine arguments = getArguments(args);
 
         SensorSimulationDSL dsl = new SensorSimulationDSL();

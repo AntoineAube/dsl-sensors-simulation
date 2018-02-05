@@ -1,5 +1,8 @@
 package fr.polytech.dsl.dsl
 
+import fr.polytech.dsl.dsl.validation.ModelValidationException
+import fr.polytech.dsl.dsl.validation.SensorsSimulationValidator
+import fr.polytech.dsl.dsl.validation.reporting.ValidationReport
 import groovy.time.TimeCategory
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.codehaus.groovy.control.customizers.SecureASTCustomizer
@@ -29,18 +32,15 @@ class SensorSimulationDSL {
         return configuration
     }
 
-    void evaluate(File scriptFile) {
+    void evaluate(File scriptFile) throws ModelValidationException {
         buildModel(scriptFile)
 
-        println binding.sensorsSimulation.laws.size()
-        println binding.sensorsSimulation.simulation.lots.get(0).simulations.size()
-
-       // validateModel()
+        validateModel()
 
        // executeModel()
     }
 
-    private buildModel(File scriptFile) {
+    void buildModel(File scriptFile) {
         Script script = shell.parse(scriptFile)
 
         script.setBinding(binding)
@@ -50,15 +50,30 @@ class SensorSimulationDSL {
         }
     }
 
-    private void validateModel() {
-     //   binding.sensorsSimulation.accept(new SensorSimulationValidator())
+    void validateModel() throws ModelValidationException {
+        SensorsSimulationValidator validator = new SensorsSimulationValidator()
+        binding.sensorsSimulation.accept(validator)
+
+        ValidationReport report = validator.getReport()
+
+        displayReport(report)
+
+        if (report.containsErrors()) {
+            throw new ModelValidationException(report)
+        }
     }
 
-    private void executeModel() {
+    void executeModel() {
       //  SensorsSimulationExecutor executor = new SensorsSimulationExecutor()
 
        // binding.sensorsSimulation.accept(executor)
 
        // executor.sendMeasures()
+    }
+
+    static void displayReport(ValidationReport report) {
+        report.reportedEntries.forEach({ ValidationReport.Entry entry ->
+            println(entry.status.toString() + "  :  " + entry.message)
+        })
     }
 }

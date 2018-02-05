@@ -1,5 +1,5 @@
 laws {
-    law 'temperature law' is replay('sample/day.json') {
+    law 'temperature law' is replay('samples/day.json') {
         fetch 'temperature' whose values are Integer
 
         times in 't'

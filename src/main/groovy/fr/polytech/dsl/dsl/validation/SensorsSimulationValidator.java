@@ -13,6 +13,7 @@ import fr.polytech.dsl.dsl.model.structures.simulations.RandomSimulation;
 import fr.polytech.dsl.dsl.model.structures.simulations.ReplaySimulation;
 import fr.polytech.dsl.dsl.model.structures.simulations.Simulation;
 import fr.polytech.dsl.dsl.model.structures.simulations.UnknownSimulation;
+import fr.polytech.dsl.dsl.validation.reporting.ValidationReport;
 
 import java.io.File;
 import java.util.Arrays;
@@ -21,14 +22,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class SensorSimulationValidator implements ModelVisitor {
+public class SensorsSimulationValidator implements ModelVisitor {
 
     private static final List<String> AUTHORIZED_REPLAY_FORMAT = Arrays.asList("csv", "json");
     private static final List<Class> AUTHORIZED_VALUES_TYPES = Arrays.asList(String.class, Integer.class, Boolean.class);
 
     private ValidationReport report;
 
-    public SensorSimulationValidator() {
+    public SensorsSimulationValidator() {
         report = new ValidationReport();
     }
 
@@ -103,88 +104,92 @@ public class SensorSimulationValidator implements ModelVisitor {
     }
 
     @Override
-    public void visit(ReplayLaw replayLaw) {
+    public void visit(ReplayLaw law) {
         // Check that the source has a correct format.
         boolean hasValidSourceFormat = AUTHORIZED_REPLAY_FORMAT.stream()
-                .anyMatch(extension -> replayLaw.getSourceFilePath().endsWith(extension));
+                .anyMatch(extension -> law.getSourceFilePath().endsWith(extension));
 
         if (!hasValidSourceFormat) {
-            ValidationReport.error(replayLaw)
-                    .message("The source file path for the replay law '" + replayLaw.getName() + "' has not a valid extension.")
+            ValidationReport.error(law)
+                    .message("The source file path for the replay law '" + law.getName() + "' has not a valid extension.")
                     .save(report);
         }
 
         // Check that the source file exists.
-        File source = new File(replayLaw.getSourceFilePath());
+        File source = new File(law.getSourceFilePath());
 
         if (source.exists()) {
             if (source.isDirectory()) {
-                ValidationReport.error(replayLaw)
-                        .message("The source file for the replay law '" + replayLaw.getName() + "' is a directory.")
+                ValidationReport.error(law)
+                        .message("The source file for the replay law '" + law.getName() + "' is a directory.")
                         .save(report);
             }
         } else {
-            ValidationReport.error(replayLaw)
-                    .message("The source file for the replay law '" + replayLaw.getName() + "' does not exist.")
+            ValidationReport.error(law)
+                    .message("The source file for the replay law '" + law.getName() + "' does not exist.")
                     .save(report);
         }
 
         // Check that the indexes are defined. Add a warning if some index are not of the same type..
+        checkColumnsIndexes(law);
+
+        // Check that the values type is Integer, Boolean or String.
+        boolean valuesHaveAuthorizedType = AUTHORIZED_VALUES_TYPES.stream()
+                .anyMatch(clazz -> clazz == law.getValuesType());
+
+        if (!valuesHaveAuthorizedType) {
+            ValidationReport.error(law)
+                    .message("The selected column type for the replay law '" + law.getName() + "' is not authorized.");
+        }
+
+        // Check that the targeted sensor is not empty.
+        String targetedSensor = law.getTargetedSensor();
+        if (targetedSensor == null || targetedSensor.isEmpty()) {
+            ValidationReport.error(law)
+                    .message("The replay law '" + law.getName() + "' targets no sensor.")
+                    .save(report);
+        }
+    }
+
+    private void checkColumnsIndexes(ReplayLaw law) {
         Class indexType = null;
 
-        ReplayLaw.ColumnIndex timesIndex = replayLaw.getTimesIndex();
+        ReplayLaw.ColumnIndex timesIndex = law.getTimesIndex();
         if (timesIndex == null) {
-            ValidationReport.error(replayLaw)
-                    .message("The times index for the replay law '" + replayLaw.getName() + "' is not defined.")
+            ValidationReport.error(law)
+                    .message("The times index for the replay law '" + law.getName() + "' is not defined.")
                     .save(report);
         } else {
             indexType = timesIndex.getIndex().getClass();
         }
 
-        ReplayLaw.ColumnIndex sensorsIndex = replayLaw.getSensorsIndex();
+        ReplayLaw.ColumnIndex sensorsIndex = law.getSensorsIndex();
         if (sensorsIndex == null) {
-            ValidationReport.error(replayLaw)
-                    .message("The sensors index for the replay law '" + replayLaw.getName() + "' is not defined.")
+            ValidationReport.error(law)
+                    .message("The sensors index for the replay law '" + law.getName() + "' is not defined.")
                     .save(report);
         } else {
             if (indexType == null) {
                 indexType = sensorsIndex.getIndex().getClass();
             } else if (indexType != sensorsIndex.getIndex().getClass()) {
-                ValidationReport.warning(replayLaw)
-                        .message("The indexes for the replay law '" + replayLaw.getName() + "' are not homogeneous.")
+                ValidationReport.warning(law)
+                        .message("The indexes for the replay law '" + law.getName() + "' are not homogeneous.")
                         .save(report);
                 indexType = null;
             }
         }
 
-        ReplayLaw.ColumnIndex valuesIndex = replayLaw.getSensorsIndex();
+        ReplayLaw.ColumnIndex valuesIndex = law.getSensorsIndex();
         if (valuesIndex == null) {
-            ValidationReport.error(replayLaw)
-                    .message("The values index for the replay law '" + replayLaw.getName() + "' is not defined.")
+            ValidationReport.error(law)
+                    .message("The values index for the replay law '" + law.getName() + "' is not defined.")
                     .save(report);
         } else {
             if (indexType != null && indexType != valuesIndex.getIndex().getClass()) {
-                ValidationReport.warning(replayLaw)
-                        .message("The indexes for the replay law '" + replayLaw.getName() + "' are not homogeneous.")
+                ValidationReport.warning(law)
+                        .message("The indexes for the replay law '" + law.getName() + "' are not homogeneous.")
                         .save(report);
             }
-        }
-
-        // Check that the values type is Integer, Boolean or String.
-        boolean valuesHaveAuthorizedType = AUTHORIZED_VALUES_TYPES.stream()
-                .anyMatch(clazz -> clazz == replayLaw.getValuesType());
-
-        if (!valuesHaveAuthorizedType) {
-            ValidationReport.error(replayLaw)
-                    .message("The selected column type for the replay law '" + replayLaw.getName() + "' is not authorized.");
-        }
-
-        // Check that the targeted sensor is not empty.
-        String targetedSensor = replayLaw.getTargetedSensor();
-        if (targetedSensor == null || targetedSensor.isEmpty()) {
-            ValidationReport.error(replayLaw)
-                    .message("The replay law '" + replayLaw.getName() + "' targets no sensor.")
-                    .save(report);
         }
     }
 
