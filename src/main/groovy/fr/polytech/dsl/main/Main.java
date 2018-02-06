@@ -1,6 +1,7 @@
 package fr.polytech.dsl.main;
 
 import fr.polytech.dsl.dsl.SensorSimulationDSL;
+import fr.polytech.dsl.dsl.execution.DatabaseConfiguration;
 import fr.polytech.dsl.dsl.validation.ModelValidationException;
 import org.apache.commons.cli.*;
 
@@ -9,11 +10,26 @@ import java.io.File;
 public class Main {
 
     private static final String SCRIPT_FILE = "scriptFile";
+    private static final String DATABASE_LOCATION = "databaseLocation";
+    private static final String DATABASE_NAME = "databaseName";
+
+    private static final String DEFAULT_DATABASE_NAME = "sensorsDatabase";
+    private static final String DEFAULT_DATABASE_LOCATION = "http://localhost:8086";
 
     public static void main(String[] args) throws ParseException, ModelValidationException {
         CommandLine arguments = getArguments(args);
 
-        SensorSimulationDSL dsl = new SensorSimulationDSL();
+        DatabaseConfiguration configuration = new DatabaseConfiguration(DEFAULT_DATABASE_NAME, DEFAULT_DATABASE_LOCATION);
+
+        if (arguments.hasOption(DATABASE_LOCATION)) {
+            configuration.setDatabaseLocation(arguments.getOptionValue(DATABASE_LOCATION));
+        }
+
+        if (arguments.hasOption(DATABASE_NAME)) {
+            configuration.setDatabaseName(arguments.getOptionValue(DATABASE_NAME));
+        }
+
+        SensorSimulationDSL dsl = new SensorSimulationDSL(configuration);
 
         dsl.evaluate(new File(arguments.getOptionValue(SCRIPT_FILE)));
     }
@@ -30,7 +46,21 @@ public class Main {
                 .hasArg()
                 .build();
 
+        Option databaseLocationOption = Option.builder("l")
+                .longOpt(DATABASE_LOCATION)
+                .desc("The location of the database in which the measures should be generated.")
+                .hasArg()
+                .build();
+
+        Option databaseNameOption = Option.builder("n")
+                .longOpt(DATABASE_NAME)
+                .desc("The name of the database in which the measure should be generated.")
+                .hasArg()
+                .build();
+
         options.addOption(scriptFileOption);
+        options.addOption(databaseLocationOption);
+        options.addOption(databaseNameOption);
 
         return parser.parse(options, args);
     }
