@@ -1,10 +1,11 @@
 package fr.polytech.dsl.dsl.execution.executors;
 
 import fr.polytech.dsl.dsl.execution.Measure;
+import fr.polytech.dsl.dsl.model.structures.simulations.modifications.Noise;
 
 
 abstract class Executor {
-    protected float noise;
+    protected Noise noise;
     protected float offset;
     protected float samplingPeriod;
     protected long dateFrom;
@@ -12,7 +13,7 @@ abstract class Executor {
     protected long lastTimeGet;
     protected String name;
 
-    public Executor(float noise, float offset, float samplingPeriod, long dateFrom, long duration, String name) {
+    public Executor(Noise noise, float offset, float samplingPeriod, long dateFrom, long duration, String name) {
         this.noise = noise;
         this.offset = offset;
         this.samplingPeriod = samplingPeriod;
