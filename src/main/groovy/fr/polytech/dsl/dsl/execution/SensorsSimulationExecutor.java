@@ -6,16 +6,16 @@ public class SensorsSimulationExecutor {
 
     private static final ReplayReaderFactory REPLAY_READER_FACTORY = new ReplayReaderFactory();
 
-    /*private Configuration databaseConfiguration;
+    /*private DatabaseConfiguration databaseConfiguration;
     private final List<Measure> measures;
 
     public SensorsSimulationExecutor() {
-        databaseConfiguration = new Configuration();
+        databaseConfiguration = new DatabaseConfiguration();
         measures = new ArrayList<>();
     }
 
     @Override
-    public void visit(Configuration configuration) {
+    public void visit(DatabaseConfiguration configuration) {
         databaseConfiguration = configuration;
     }
 

@@ -27,7 +27,6 @@ public class ReplaySimulation extends Simulation<ReplayLaw> {
         this.noise = noise;
     }
 
-
     @Override
     public SimulationScope createSimulationScope() {
         return new ReplaySimulationScope(this);

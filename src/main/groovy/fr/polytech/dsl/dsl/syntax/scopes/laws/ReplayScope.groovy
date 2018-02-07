@@ -13,9 +13,10 @@ class ReplayScope {
     ReplayScope(ReplayLaw replay) {
         this.replay = replay
 
-        times = new ChangeableValue({value -> replay.timesIndex = value})
-        values = new ChangeableValue({value -> replay.valuesIndex = value})
-        sensors = new ChangeableValue({value -> replay.sensorsIndex = value})
+        // Should throw an exception if the given value is not an Integer nor a String.
+        times = new ChangeableValue({value -> replay.indexes.timesIndex = value})
+        values = new ChangeableValue({value -> replay.indexes.valuesIndex = value})
+        sensors = new ChangeableValue({value -> replay.indexes.sensorsIndex = value})
     }
 
     def fetch(String sensorName) {

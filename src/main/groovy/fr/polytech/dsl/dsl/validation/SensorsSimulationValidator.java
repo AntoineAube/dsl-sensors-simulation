@@ -154,7 +154,7 @@ public class SensorsSimulationValidator implements ModelVisitor {
     private void checkColumnsIndexes(ReplayLaw law) {
         Class indexType = null;
 
-        ReplayLaw.ColumnIndex timesIndex = law.getTimesIndex();
+        ReplayLaw.ColumnIndex timesIndex = law.getIndexes().getTimesIndex();
         if (timesIndex == null) {
             ValidationReport.error(law)
                     .message("The times index for the replay law '" + law.getName() + "' is not defined.")
@@ -163,7 +163,7 @@ public class SensorsSimulationValidator implements ModelVisitor {
             indexType = timesIndex.getIndex().getClass();
         }
 
-        ReplayLaw.ColumnIndex sensorsIndex = law.getSensorsIndex();
+        ReplayLaw.ColumnIndex sensorsIndex = law.getIndexes().getSensorsIndex();
         if (sensorsIndex == null) {
             ValidationReport.error(law)
                     .message("The sensors index for the replay law '" + law.getName() + "' is not defined.")
@@ -179,7 +179,7 @@ public class SensorsSimulationValidator implements ModelVisitor {
             }
         }
 
-        ReplayLaw.ColumnIndex valuesIndex = law.getSensorsIndex();
+        ReplayLaw.ColumnIndex valuesIndex = law.getIndexes().getSensorsIndex();
         if (valuesIndex == null) {
             ValidationReport.error(law)
                     .message("The values index for the replay law '" + law.getName() + "' is not defined.")

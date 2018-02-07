@@ -11,12 +11,11 @@ public class ReplayLaw extends Law {
     private String targetedSensor;
     private Class valuesType;
 
-    private ColumnIndex timesIndex;
-    private ColumnIndex valuesIndex;
-    private ColumnIndex sensorsIndex;
+    private final ColumnsIndexes indexes;
 
     public ReplayLaw(String sourceFilePath) {
         this.sourceFilePath = sourceFilePath;
+        indexes = new ColumnsIndexes();
     }
 
     public String getSourceFilePath() {
@@ -39,40 +38,8 @@ public class ReplayLaw extends Law {
         this.targetedSensor = targetedSensor;
     }
 
-    public ColumnIndex getTimesIndex() {
-        return timesIndex;
-    }
-
-    public void setTimesIndex(Integer index) {
-        timesIndex = new ColumnIndex(index);
-    }
-
-    public void setTimesIndex(String index) {
-        timesIndex = new ColumnIndex(index);
-    }
-
-    public ColumnIndex getValuesIndex() {
-        return valuesIndex;
-    }
-
-    public void setValuesIndex(Integer index) {
-        valuesIndex = new ColumnIndex(index);
-    }
-
-    public void setValuesIndex(String index) {
-        valuesIndex = new ColumnIndex(index);
-    }
-
-    public ColumnIndex getSensorsIndex() {
-        return sensorsIndex;
-    }
-
-    public void setSensorsIndex(Integer index) {
-        sensorsIndex = new ColumnIndex(index);
-    }
-
-    public void setSensorsIndex(String index) {
-        sensorsIndex = new ColumnIndex(index);
+    public ColumnsIndexes getIndexes() {
+        return indexes;
     }
 
     @Override
@@ -99,6 +66,55 @@ public class ReplayLaw extends Law {
 
         public Object getIndex() {
             return index;
+        }
+    }
+
+    public static class ColumnsIndexes {
+
+        private ColumnIndex timesIndex;
+        private ColumnIndex valuesIndex;
+        private ColumnIndex sensorsIndex;
+
+        public ColumnsIndexes() {
+            timesIndex = null;
+            valuesIndex = null;
+            sensorsIndex = null;
+        }
+
+        public ColumnIndex getTimesIndex() {
+            return timesIndex;
+        }
+
+        public void setTimesIndex(Integer index) {
+            timesIndex = new ColumnIndex(index);
+        }
+
+        public void setTimesIndex(String index) {
+            timesIndex = new ColumnIndex(index);
+        }
+
+        public ColumnIndex getValuesIndex() {
+            return valuesIndex;
+        }
+
+        public void setValuesIndex(Integer index) {
+            valuesIndex = new ColumnIndex(index);
+        }
+
+        public void setValuesIndex(String index) {
+            valuesIndex = new ColumnIndex(index);
+        }
+
+        public ColumnIndex getSensorsIndex() {
+            return sensorsIndex;
+        }
+
+        public void setSensorsIndex(Integer index) {
+            sensorsIndex = new ColumnIndex(index);
+        }
+
+        public void setSensorsIndex(String index) {
+            sensorsIndex = new ColumnIndex(index);
         }
     }
 }
