@@ -10,25 +10,13 @@ import java.util.Collections;
 
 public class RandomSimulation extends Simulation<RandomLaw> {
 
-    private Noise noise;
-
     public RandomSimulation(RandomLaw associatedLaw) {
         super(associatedLaw);
-
-        noise = new Noise(Collections.emptyList());
     }
 
     @Override
     public void accept(ModelVisitor visitor) {
         visitor.visit(this);
-    }
-
-    public Noise getNoise() {
-        return noise;
-    }
-
-    public void setNoise(Noise noise) {
-        this.noise = noise;
     }
 
     @Override

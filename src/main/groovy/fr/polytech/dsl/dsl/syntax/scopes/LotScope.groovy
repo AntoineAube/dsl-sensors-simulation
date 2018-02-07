@@ -6,6 +6,10 @@ import fr.polytech.dsl.dsl.model.structures.laws.Law
 import fr.polytech.dsl.dsl.model.structures.laws.UnknownLaw
 import fr.polytech.dsl.dsl.model.structures.simulations.Simulation
 import fr.polytech.dsl.dsl.model.structures.simulations.UnknownSimulation
+import fr.polytech.dsl.dsl.model.structures.simulations.modifications.SamplingFrequency
+import groovy.time.BaseDuration
+import groovy.time.Duration
+import groovy.time.TimeDuration
 
 class LotScope {
 
@@ -35,11 +39,17 @@ class LotScope {
                     lot.addSimulations(unknown.createBlankSimulation(), sensorsNumber)
                 }
 
-                [modifiedBy: {Closure simulationModifiers ->
+                [parameterized: {Closure simulationModifiers ->
                     simulationModifiers.delegate = simulation.createSimulationScope()
                     simulationModifiers.resolveStrategy = DELEGATE_FIRST
 
                     simulationModifiers()
+                }, during: {BaseDuration duration ->
+                    simulation.duration = duration.toMilliseconds()
+
+                    [at: {SamplingFrequency frequency ->
+                        simulation.samplingFrequency = frequency
+                    }]
                 }]
             }]
         }]

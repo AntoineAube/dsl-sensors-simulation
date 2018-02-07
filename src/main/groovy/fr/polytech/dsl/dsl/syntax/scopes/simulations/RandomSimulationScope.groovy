@@ -8,8 +8,4 @@ class RandomSimulationScope extends SimulationScope {
     RandomSimulationScope(RandomSimulation simulation) {
         super(simulation)
     }
-
-    def noise(List<Integer> noiseValues) {
-        ((RandomSimulation) simulation).noise = new Noise(noiseValues)
-    }
 }

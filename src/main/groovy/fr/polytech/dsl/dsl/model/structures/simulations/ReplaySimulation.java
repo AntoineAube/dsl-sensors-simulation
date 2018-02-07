@@ -8,23 +8,25 @@ import fr.polytech.dsl.dsl.syntax.scopes.simulations.SimulationScope;
 
 public class ReplaySimulation extends Simulation<ReplayLaw> {
 
-    private Noise noise;
+    private long dateOffset;
 
     public ReplaySimulation(ReplayLaw associatedLaw) {
         super(associatedLaw);
+
+        dateOffset = 0;
+    }
+
+    public long getDateOffset() {
+        return dateOffset;
+    }
+
+    public void setDateOffset(long dateOffset) {
+        this.dateOffset = dateOffset;
     }
 
     @Override
     public void accept(ModelVisitor visitor) {
         visitor.visit(this);
-    }
-
-    public Noise getNoise() {
-        return noise;
-    }
-
-    public void setNoise(Noise noise) {
-        this.noise = noise;
     }
 
     @Override
