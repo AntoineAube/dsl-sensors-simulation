@@ -17,9 +17,6 @@ class SensorSimulationDSL {
     SensorSimulationDSL(DatabaseConfiguration databaseConfiguration) {
         this.databaseConfiguration = databaseConfiguration
 
-        println databaseConfiguration.databaseLocation
-        println databaseConfiguration.databaseName
-
         binding = new SensorSimulationBinding()
 
         def configuration = getDSLConfiguration()
