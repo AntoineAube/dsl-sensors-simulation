@@ -1,5 +1,6 @@
 package fr.polytech.dsl.dsl
 
+import fr.polytech.dsl.dsl.execution.DatabaseConfiguration
 import fr.polytech.dsl.dsl.validation.ModelValidationException
 import fr.polytech.dsl.dsl.validation.SensorsSimulationValidator
 import fr.polytech.dsl.dsl.validation.reporting.ValidationReport
@@ -11,8 +12,14 @@ class SensorSimulationDSL {
 
     private GroovyShell shell
     private SensorSimulationBinding binding
+    private final DatabaseConfiguration databaseConfiguration
 
-    SensorSimulationDSL() {
+    SensorSimulationDSL(DatabaseConfiguration databaseConfiguration) {
+        this.databaseConfiguration = databaseConfiguration
+
+        println databaseConfiguration.databaseLocation
+        println databaseConfiguration.databaseName
+
         binding = new SensorSimulationBinding()
 
         def configuration = getDSLConfiguration()
