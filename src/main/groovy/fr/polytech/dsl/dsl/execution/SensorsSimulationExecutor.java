@@ -13,6 +13,7 @@ import fr.polytech.dsl.dsl.model.structures.simulations.RandomSimulation;
 import fr.polytech.dsl.dsl.model.structures.simulations.ReplaySimulation;
 import fr.polytech.dsl.dsl.model.structures.simulations.UnknownSimulation;
 
+import java.util.ArrayList;
 import java.util.List;
 import fr.polytech.dsl.dsl.execution.executors.Executor;
 
@@ -23,14 +24,20 @@ public class SensorsSimulationExecutor implements ModelVisitor{
 
     private List<Executor> executors;
 
+    public SensorsSimulationExecutor(){
+        executors = new ArrayList<>();
+    }
+
     @Override
     public void visit(SensorsSimulation sensorsSimulation) {
-
+        sensorsSimulation.getSimulation().accept(this);
     }
 
     @Override
     public void visit(SimulationContent simulationContent) {
-
+        for(Lot lot : simulationContent.getLots()){
+            lot.accept(this);
+        }
     }
 
     @Override
@@ -40,7 +47,6 @@ public class SensorsSimulationExecutor implements ModelVisitor{
         for (Lot.SimulationsBundle bundle : lot.getSimulations()) {
             currentSimulationNumber = bundle.getSimulationsNumber();
             bundle.getSimulation().accept(this);
-
         }
     }
 
@@ -49,7 +55,7 @@ public class SensorsSimulationExecutor implements ModelVisitor{
         for (int i = 0; i < currentSimulationNumber; i++) {
             RandomExecutor exec = new RandomExecutor(
                 randomSimulation.getNoise(),
-                1.0f/randomSimulation.getSamplingFrequency().getFrequency(),
+                1000.0f/randomSimulation.getSamplingFrequency().getFrequency(),
                 randomSimulation.getDateFrom(),
                 randomSimulation.getDuration(),
                 currentLot.getName()+":"+randomSimulation.getSensorName()+":"+i,
@@ -83,53 +89,17 @@ public class SensorsSimulationExecutor implements ModelVisitor{
     public void visit(UnknownLaw unknownLaw) {
         // nothing to do here
     }
-    // private static final ReplayReaderFactory REPLAY_READER_FACTORY = new ReplayReaderFactory();
 
-    /*private DatabaseConfiguration databaseConfiguration;
-    private final List<Measure> measures;
+    public void sendMeasures(DatabaseConfiguration configuration) {
 
-    public SensorsSimulationExecutor() {
-        databaseConfiguration = new DatabaseConfiguration();
-        measures = new ArrayList<>();
-    }
+        MeasureSerializer serializer = new MeasureSerializer(configuration);
 
-    @Override
-    public void visit(DatabaseConfiguration configuration) {
-        databaseConfiguration = configuration;
-    }
-
-    @Override
-    public void visit(SensorsSimulation sensorsSimulation) {
-        sensorsSimulation.getConfiguration().accept(this);
-
-        sensorsSimulation.getReplays().forEach(this::visit);
-
-        sensorsSimulation.getSensors().forEach(this::visit);
-    }
-
-    @Override
-    public void visit(Replay replay) {
-        ReplayReader<?> replayReader = REPLAY_READER_FACTORY.createReplayReader(replay);
-
-        try {
-            List<Measure> newMeasures = replayReader.readReplay();
-
-            measures.addAll(newMeasures);
-        } catch (IOException e) {
-            throw new RuntimeException("Faulty replay during execution: " + replay);
+        for (Executor exec : executors) {
+            System.out.print(".");
+            while (!exec.hasFinished()){
+                Measure measure = exec.getNext();
+                serializer.saveMeasure(measure);
+            }
         }
     }
-
-    @Override
-    public void visit(Sensor sensor) {
-        // TODO Implement this.
-    }
-
-    public void sendMeasures() {
-        MeasureSerializer serializer = new MeasureSerializer(databaseConfiguration);
-
-        if (!measures.isEmpty()) {
-            serializer.saveMeasures(measures);
-        }
-    }*/
 }

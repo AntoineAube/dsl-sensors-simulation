@@ -17,13 +17,13 @@ public abstract class Executor {
         this.samplingPeriod = samplingPeriod;
         this.dateFrom = dateFrom;
         this.duration = duration;
-        this.lastTimeGet = 0;
+        this.lastTimeGet = dateFrom;
         this.name = name;
     }
 
-    abstract Measure GetNext();
+    public abstract Measure getNext();
 
-    boolean HasFinished(){
-        return lastTimeGet > duration;
+    public boolean hasFinished(){
+        return lastTimeGet >= dateFrom + duration;
     }
 }

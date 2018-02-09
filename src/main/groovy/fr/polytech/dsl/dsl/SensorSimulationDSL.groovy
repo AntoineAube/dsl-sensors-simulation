@@ -1,6 +1,7 @@
 package fr.polytech.dsl.dsl
 
 import fr.polytech.dsl.dsl.execution.DatabaseConfiguration
+import fr.polytech.dsl.dsl.execution.SensorsSimulationExecutor
 import fr.polytech.dsl.dsl.validation.ModelValidationException
 import fr.polytech.dsl.dsl.validation.SensorsSimulationValidator
 import fr.polytech.dsl.dsl.validation.reporting.ValidationReport
@@ -41,7 +42,7 @@ class SensorSimulationDSL {
 
         validateModel()
 
-       // executeModel()
+        executeModel()
     }
 
     void buildModel(File scriptFile) {
@@ -68,11 +69,11 @@ class SensorSimulationDSL {
     }
 
     void executeModel() {
-      //  SensorsSimulationExecutor executor = new SensorsSimulationExecutor()
+        SensorsSimulationExecutor executor = new SensorsSimulationExecutor()
 
-       // binding.sensorsSimulation.accept(executor)
+        binding.sensorsSimulation.accept(executor)
 
-       // executor.sendMeasures()
+        executor.sendMeasures(databaseConfiguration)
     }
 
     static void displayReport(ValidationReport report) {

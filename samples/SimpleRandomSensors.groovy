@@ -7,7 +7,7 @@ laws {
 
 simulation {
     lot ('Parking') {
-        contains 20 sensors 'parking place' following 'parking place occupancy' during 1.hour at new SamplingFrequency((double) 1.0)
-        contains 10 sensors 'temperature' following 'temperature law' during 2.years at new SamplingFrequency((double) 1.0)
+        contains 20 sensors 'parking place' following 'parking place occupancy' during 2.hour at new SamplingFrequency((double) 1.0f/60.0f)
+        contains 10 sensors 'temperature' following 'temperature law' during 2.weeks at new SamplingFrequency((double) 1.0f/3600.0f)
     }
 }
