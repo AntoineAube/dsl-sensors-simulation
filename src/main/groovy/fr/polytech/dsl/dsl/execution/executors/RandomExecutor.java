@@ -9,8 +9,8 @@ import java.util.Random;
 public class RandomExecutor extends Executor {
     private List<Object> possibleValues;
 
-    public RandomExecutor(Noise noise, float offset, float samplingPeriod, long dateFrom, long duration, String name, List<Object> possibleValues) {
-        super(noise, offset, samplingPeriod, dateFrom, duration, name);
+    public RandomExecutor(Noise noise, double samplingPeriod, long dateFrom, long duration, String name, List<Object> possibleValues) {
+        super(noise, samplingPeriod, dateFrom, duration, name);
         this.possibleValues = possibleValues;
     }
 

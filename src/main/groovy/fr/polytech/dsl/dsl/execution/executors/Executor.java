@@ -4,18 +4,16 @@ import fr.polytech.dsl.dsl.execution.Measure;
 import fr.polytech.dsl.dsl.model.structures.simulations.modifications.Noise;
 
 
-abstract class Executor {
+public abstract class Executor {
     protected Noise noise;
-    protected float offset;
-    protected float samplingPeriod;
+    protected double samplingPeriod;
     protected long dateFrom;
     protected long duration;
     protected long lastTimeGet;
     protected String name;
 
-    public Executor(Noise noise, float offset, float samplingPeriod, long dateFrom, long duration, String name) {
+    public Executor(Noise noise, double samplingPeriod, long dateFrom, long duration, String name) {
         this.noise = noise;
-        this.offset = offset;
         this.samplingPeriod = samplingPeriod;
         this.dateFrom = dateFrom;
         this.duration = duration;
