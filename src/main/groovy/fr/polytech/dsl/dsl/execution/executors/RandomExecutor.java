@@ -9,8 +9,8 @@ import java.util.Random;
 public class RandomExecutor extends Executor {
     private List<Object> possibleValues;
 
-    public RandomExecutor(Noise noise, double samplingPeriod, long dateFrom, long duration, String name, List<Object> possibleValues) {
-        super(noise, samplingPeriod, dateFrom, duration, name);
+    public RandomExecutor(String name, long dateFrom, long duration, Noise noise, double samplingPeriod, List<Object> possibleValues) {
+        super(name, dateFrom, duration, noise, samplingPeriod);
         this.possibleValues = possibleValues;
     }
 
@@ -19,5 +19,10 @@ public class RandomExecutor extends Executor {
         lastTimeGet += samplingPeriod;
         Random rand = new Random();
         return new Measure(dateFrom + lastTimeGet, possibleValues.get(rand.nextInt(possibleValues.size())), name);
+    }
+
+    @Override
+    public boolean hasFinished(){
+        return lastTimeGet >= dateFrom + duration;
     }
 }

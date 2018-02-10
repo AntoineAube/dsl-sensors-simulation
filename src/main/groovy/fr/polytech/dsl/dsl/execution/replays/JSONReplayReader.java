@@ -1,6 +1,6 @@
 package fr.polytech.dsl.dsl.execution.replays;
-
-public class JSONReplayReader extends ReplayReader<String> {
+/*
+public class JSONReplayReader extends ReplayReader {
 
     public JSONReplayReader() {
         //super(replay);
@@ -31,5 +31,5 @@ public class JSONReplayReader extends ReplayReader<String> {
         }
 
         return measures;
-    }*/
-}
+    }
+}*/

@@ -1,7 +1,7 @@
 package fr.polytech.dsl.dsl.execution;
 
 import fr.polytech.dsl.dsl.execution.executors.RandomExecutor;
-import fr.polytech.dsl.dsl.execution.replays.ReplayReaderFactory;
+import fr.polytech.dsl.dsl.execution.executors.ReplayExecutor;
 import fr.polytech.dsl.dsl.model.ModelVisitor;
 import fr.polytech.dsl.dsl.model.structures.Lot;
 import fr.polytech.dsl.dsl.model.structures.SensorsSimulation;
@@ -13,6 +13,7 @@ import fr.polytech.dsl.dsl.model.structures.simulations.RandomSimulation;
 import fr.polytech.dsl.dsl.model.structures.simulations.ReplaySimulation;
 import fr.polytech.dsl.dsl.model.structures.simulations.UnknownSimulation;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import fr.polytech.dsl.dsl.execution.executors.Executor;
@@ -51,28 +52,45 @@ public class SensorsSimulationExecutor implements ModelVisitor{
     }
 
     @Override
-    public void visit(RandomSimulation randomSimulation) {
+    public void visit(RandomSimulation simulation) {
         for (int i = 0; i < currentSimulationNumber; i++) {
             RandomExecutor exec = new RandomExecutor(
-                randomSimulation.getNoise(),
-                1000.0f/randomSimulation.getSamplingFrequency().getFrequency(),
-                randomSimulation.getDateFrom(),
-                randomSimulation.getDuration(),
-                currentLot.getName()+":"+randomSimulation.getSensorName()+":"+i,
-                randomSimulation.getAssociatedLaw().getPossibleValues()
+                    currentLot.getName()+":"+simulation.getSensorName()+":"+i,
+                    simulation.getDateFrom(),
+                    simulation.getDuration(),
+                    simulation.getNoise(),
+                    1000.0f/simulation.getSamplingFrequency().getFrequency(),
+                    simulation.getAssociatedLaw().getPossibleValues()
             );
             executors.add(exec);
         }
     }
 
     @Override
-    public void visit(ReplaySimulation replaySimulation) {
-
+    public void visit(ReplaySimulation simulation) {
+        try {
+            for (int i = 0; i < currentSimulationNumber; i++) {
+                ReplayExecutor exec = null;
+                exec = new ReplayExecutor(
+                        currentLot.getName()+":"+simulation.getSensorName()+":"+i,
+                        simulation.getDateFrom(),
+                        simulation.getDuration(),
+                        simulation.getNoise(),
+                        1000.0f/simulation.getSamplingFrequency().getFrequency(),
+                        simulation.getAssociatedLaw().getSourceFilePath(),
+                        simulation.getAssociatedLaw().getIndexes(),
+                        simulation.getAssociatedLaw().getTargetedSensor()
+                );
+                executors.add(exec);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void visit(UnknownSimulation unknownSimulation) {
-
+        // nothing to do here
     }
 
     @Override
@@ -95,11 +113,14 @@ public class SensorsSimulationExecutor implements ModelVisitor{
         MeasureSerializer serializer = new MeasureSerializer(configuration);
 
         for (Executor exec : executors) {
-            System.out.print(".");
+            System.out.print("|");
             while (!exec.hasFinished()){
+                System.out.print(".");
                 Measure measure = exec.getNext();
-                serializer.saveMeasure(measure);
+                if(measure != null)
+                    serializer.saveMeasure(measure);
             }
+            System.out.print("\n");
         }
     }
 }

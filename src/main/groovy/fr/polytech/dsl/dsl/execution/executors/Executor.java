@@ -12,7 +12,7 @@ public abstract class Executor {
     protected long lastTimeGet;
     protected String name;
 
-    public Executor(Noise noise, double samplingPeriod, long dateFrom, long duration, String name) {
+    public Executor(String name, long dateFrom, long duration, Noise noise, double samplingPeriod) {
         this.noise = noise;
         this.samplingPeriod = samplingPeriod;
         this.dateFrom = dateFrom;
@@ -23,7 +23,5 @@ public abstract class Executor {
 
     public abstract Measure getNext();
 
-    public boolean hasFinished(){
-        return lastTimeGet >= dateFrom + duration;
-    }
+    public abstract boolean hasFinished();
 }
