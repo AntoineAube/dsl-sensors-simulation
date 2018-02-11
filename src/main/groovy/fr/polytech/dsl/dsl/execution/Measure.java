@@ -3,8 +3,8 @@ package fr.polytech.dsl.dsl.execution;
 public class Measure {
 
     private long timestamp;
-    private final Object value;
-    private final String sensorName;
+    private Object value;
+    private String sensorName;
 
     public Measure(long timestamp, Object value, String sensorName) {
         this.timestamp = timestamp;
@@ -26,5 +26,9 @@ public class Measure {
 
     public String getSensorName() {
         return sensorName;
+    }
+
+    public void setSensorName(String sensorName) {
+        this.sensorName = sensorName;
     }
 }

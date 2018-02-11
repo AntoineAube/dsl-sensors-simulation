@@ -2,9 +2,11 @@ package fr.polytech.dsl.dsl.execution.executors;
 
 import fr.polytech.dsl.dsl.execution.Measure;
 import fr.polytech.dsl.dsl.execution.replays.CSVReplayReader;
+import fr.polytech.dsl.dsl.execution.replays.JSONReplayReader;
 import fr.polytech.dsl.dsl.execution.replays.ReplayReader;
 import fr.polytech.dsl.dsl.model.structures.laws.ReplayLaw;
 import fr.polytech.dsl.dsl.model.structures.simulations.modifications.Noise;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -20,7 +22,7 @@ public class ReplayExecutor extends Executor{
                           double samplingPeriod,
                           String sourceFile,
                           ReplayLaw.ColumnsIndexes indexes,
-                          String sensorName) throws IOException {
+                          String sensorName) throws IOException, ParseException {
         super(name, dateFrom, duration, noise, samplingPeriod);
         String extension = null;
         {
@@ -35,15 +37,22 @@ public class ReplayExecutor extends Executor{
         if(extension.toLowerCase().equals("csv")){
             reader = new CSVReplayReader(sourceFile,indexes,sensorName);
         }
+        if(extension.toLowerCase().equals("json")){
+            reader = new JSONReplayReader(sourceFile,indexes,sensorName);
+        }
         //TODO JSON
     }
 
     @Override
     public Measure getNext() {
         if(reader != null){
-            return reader.readNext();
+            Measure measure = reader.readNext();
+            if(measure != null){
+                measure.setSensorName(this.name);
+                return measure;
+            }
         }
-        else return null;
+        return null;
     }
 
     @Override

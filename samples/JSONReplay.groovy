@@ -11,7 +11,7 @@ laws {
 }
 
 simulation {
-    lot ('School') {
+    lot ('SchoolJSON') {
         contains 3 sensors 'temperature' following 'temperature law' parameterized {
             during 1.year at new SamplingFrequency((double) 1.0)
 

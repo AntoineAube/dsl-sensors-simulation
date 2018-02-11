@@ -11,7 +11,7 @@ laws {
 }
 
 simulation {
-    lot ('School') {
+    lot ('SchoolCSV') {
         contains 3 sensors 'temperature' following 'temperature law' during 20.minutes at new SamplingFrequency((double) 1.0)
     }
 }

@@ -14,6 +14,7 @@ import fr.polytech.dsl.dsl.model.structures.simulations.ReplaySimulation;
 import fr.polytech.dsl.dsl.model.structures.simulations.UnknownSimulation;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import fr.polytech.dsl.dsl.execution.executors.Executor;
@@ -83,7 +84,7 @@ public class SensorsSimulationExecutor implements ModelVisitor{
                 );
                 executors.add(exec);
             }
-        } catch (IOException e) {
+        } catch (IOException | org.json.simple.parser.ParseException e) {
             e.printStackTrace();
         }
     }
@@ -115,10 +116,11 @@ public class SensorsSimulationExecutor implements ModelVisitor{
         for (Executor exec : executors) {
             System.out.print("|");
             while (!exec.hasFinished()){
-                System.out.print(".");
                 Measure measure = exec.getNext();
-                if(measure != null)
+                if(measure != null) {
+                    System.out.print(".");
                     serializer.saveMeasure(measure);
+                }
             }
             System.out.print("\n");
         }
