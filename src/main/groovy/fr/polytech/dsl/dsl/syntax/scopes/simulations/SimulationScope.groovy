@@ -26,6 +26,11 @@ abstract class SimulationScope {
 
         [at: {SamplingFrequency frequency ->
             simulation.samplingFrequency = frequency
+        },
+         sampleEvery: {BaseDuration period ->
+            simulation.samplingFrequency = new SamplingFrequency(1000 / period.toMilliseconds())
+
+            println(simulation.samplingFrequency.getFrequency())
         }]
     }
 }

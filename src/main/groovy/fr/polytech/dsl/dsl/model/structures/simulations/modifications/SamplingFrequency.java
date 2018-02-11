@@ -4,6 +4,10 @@ public class SamplingFrequency {
 
     private final double frequency;
 
+    /**
+     * Builds a sampling frequency.
+     * @param frequency Frequency in hz.
+     */
     public SamplingFrequency(double frequency) {
         this.frequency = frequency;
     }

@@ -1,5 +1,3 @@
-import fr.polytech.dsl.dsl.model.structures.simulations.modifications.SamplingFrequency
-
 laws {
     law 'temperature law' is replay('samples/day.csv') {
         fetch 'temperature' whose values are Integer
@@ -12,6 +10,6 @@ laws {
 
 simulation {
     lot ('SchoolCSV') {
-        contains 3 sensors 'temperature' following 'temperature law' during 20.minutes at new SamplingFrequency((double) 1.0)
+        contains 3 sensors 'temperature' following 'temperature law' during 20.minutes sampleEvery 1.second
     }
 }
