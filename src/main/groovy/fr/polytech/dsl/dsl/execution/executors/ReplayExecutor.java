@@ -45,7 +45,6 @@ public class ReplayExecutor extends Executor{
         if(extension.toLowerCase().equals("json")){
             reader = new JSONReplayReader(sourceFile,indexes,sensorName);
         }
-        //TODO JSON
     }
 
     @Override
