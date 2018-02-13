@@ -15,5 +15,7 @@ public abstract class Law implements VisitableModel {
         this.name = name;
     }
 
+    public abstract Class getValuesType();
+
     public abstract Simulation createBlankSimulation();
 }

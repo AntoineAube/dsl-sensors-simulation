@@ -19,6 +19,11 @@ public class RandomLaw extends Law {
     }
 
     @Override
+    public Class getValuesType() {
+        return possibleValues.get(0).getClass();
+    }
+
+    @Override
     public Simulation createBlankSimulation() {
         return new RandomSimulation(this);
     }

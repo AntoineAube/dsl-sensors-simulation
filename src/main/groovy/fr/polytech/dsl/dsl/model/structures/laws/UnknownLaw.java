@@ -7,6 +7,11 @@ import fr.polytech.dsl.dsl.model.structures.simulations.UnknownSimulation;
 public class UnknownLaw extends Law {
 
     @Override
+    public Class getValuesType() {
+        return void.class;
+    }
+
+    @Override
     public Simulation createBlankSimulation() {
         return new UnknownSimulation(this);
     }
