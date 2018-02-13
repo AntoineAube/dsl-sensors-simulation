@@ -10,10 +10,13 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Random;
 
 public class ReplayExecutor extends Executor{
 
     private ReplayReader reader = null;
+    private Class valueType;
+    private Random rand = new Random();
 
     public ReplayExecutor(String name,
                           long dateFrom,
@@ -22,8 +25,10 @@ public class ReplayExecutor extends Executor{
                           double samplingPeriod,
                           String sourceFile,
                           ReplayLaw.ColumnsIndexes indexes,
-                          String sensorName) throws IOException, ParseException {
+                          String sensorName,
+                          Class valueType) throws IOException, ParseException {
         super(name, dateFrom, duration, noise, samplingPeriod);
+        this.valueType = valueType;
         String extension = null;
         {
             int i = sourceFile.lastIndexOf('.');
@@ -50,6 +55,9 @@ public class ReplayExecutor extends Executor{
             if(measure != null){
                 measure.setSensorName(this.name);
                 measure.setTimestamp(measure.getTimestamp()+dateFrom);
+                if(valueType == Integer.class && noise.getNoiseValues().size() > 0){
+                    measure.setValue((Integer) measure.getValue()+noise.getNoiseValues().get(rand.nextInt(noise.getNoiseValues().size())));
+                }
                 return measure;
             }
         }

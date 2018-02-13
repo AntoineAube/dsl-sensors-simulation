@@ -61,7 +61,8 @@ public class SensorsSimulationExecutor implements ModelVisitor{
                     simulation.getDuration(),
                     simulation.getNoise(),
                     1000.0f/simulation.getSamplingFrequency().getFrequency(),
-                    simulation.getAssociatedLaw().getPossibleValues()
+                    simulation.getAssociatedLaw().getPossibleValues(),
+                    simulation.getAssociatedLaw().getValuesType()
             );
             executors.add(exec);
         }
@@ -79,7 +80,8 @@ public class SensorsSimulationExecutor implements ModelVisitor{
                         1000.0f/simulation.getSamplingFrequency().getFrequency(),
                         simulation.getAssociatedLaw().getSourceFilePath(),
                         simulation.getAssociatedLaw().getIndexes(),
-                        simulation.getAssociatedLaw().getTargetedSensor()
+                        simulation.getAssociatedLaw().getTargetedSensor(),
+                        simulation.getAssociatedLaw().getValuesType()
                 );
                 executors.add(exec);
             }

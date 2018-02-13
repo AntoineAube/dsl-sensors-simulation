@@ -23,7 +23,7 @@ simulation {
             during 1.year
             sampleEvery 1.day
             offset 17573.days
-            noise 1..10
+            noise 100..200
         }
         contains 3 sensors 'temperature csv' following 'temperature csv' parameterized {
             during 20.minutes
