@@ -49,6 +49,7 @@ public class ReplayExecutor extends Executor{
             Measure measure = reader.readNext();
             if(measure != null){
                 measure.setSensorName(this.name);
+                measure.setTimestamp(measure.getTimestamp()+dateFrom);
                 return measure;
             }
         }

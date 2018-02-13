@@ -71,10 +71,9 @@ public class SensorsSimulationExecutor implements ModelVisitor{
     public void visit(ReplaySimulation simulation) {
         try {
             for (int i = 0; i < currentSimulationNumber; i++) {
-                ReplayExecutor exec = null;
-                exec = new ReplayExecutor(
+                ReplayExecutor exec = new ReplayExecutor(
                         currentLot.getName()+":"+simulation.getSensorName()+":"+i,
-                        simulation.getDateFrom(),
+                        simulation.getDateOffset(),
                         simulation.getDuration(),
                         simulation.getNoise(),
                         1000.0f/simulation.getSamplingFrequency().getFrequency(),

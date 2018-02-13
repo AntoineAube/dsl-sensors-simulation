@@ -16,9 +16,10 @@ public class RandomExecutor extends Executor {
 
     @Override
     public Measure getNext() {
-        lastTimeGet += samplingPeriod;
         Random rand = new Random();
-        return new Measure(dateFrom + lastTimeGet, possibleValues.get(rand.nextInt(possibleValues.size())), name);
+        Measure measure = new Measure(lastTimeGet, possibleValues.get(rand.nextInt(possibleValues.size())), name);
+        lastTimeGet += samplingPeriod;
+        return measure;
     }
 
     @Override
