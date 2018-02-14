@@ -15,6 +15,7 @@ laws {
     }
     law 'temperature random' is random(0..25)
     law 'parking place occupancy' is random('Available', 'Taken')
+    law 'is day' is random(true, false)
 }
 
 simulation {
@@ -32,5 +33,6 @@ simulation {
         }
         contains 5 sensors 'parking place' following 'parking place occupancy' during 2.hours sampleEvery 1.minute
         contains 3 sensors 'temperature random' following 'temperature random' during 2.hours sampleEvery 2.minute
+        contains 1 sensor 'day' following 'is day' during 1.hour sampleEvery 1.minute
     }
 }

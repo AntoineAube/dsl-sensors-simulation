@@ -22,7 +22,7 @@ class LotScope {
     }
 
     def contains(int sensorsNumber) {
-        [sensors: {String sensorName ->
+        def sensorsClosure = {String sensorName ->
             [following: {String lawName ->
                 Optional<Law> associatedLaw = binding.findLaw(lawName)
 
@@ -50,11 +50,12 @@ class LotScope {
                     [at: {SamplingFrequency frequency ->
                         simulation.samplingFrequency = frequency
                     },
-                    sampleEvery: {BaseDuration period ->
-                        simulation.samplingFrequency = new SamplingFrequency((double) 1000 / period.toMilliseconds())
-                    }]
+                     sampleEvery: {BaseDuration period ->
+                         simulation.samplingFrequency = new SamplingFrequency((double) 1000 / period.toMilliseconds())
+                     }]
                 }]
             }]
-        }]
+        }
+        [sensors: sensorsClosure, sensor: sensorsClosure]
     }
 }
