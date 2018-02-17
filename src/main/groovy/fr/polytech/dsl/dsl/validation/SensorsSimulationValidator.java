@@ -104,6 +104,11 @@ public class SensorsSimulationValidator implements ModelVisitor {
     }
 
     @Override
+    public void visit(FunctionLaw functionLaw) {
+        // TODO Fill there.
+    }
+
+    @Override
     public void visit(UnknownLaw unknownLaw) {
         ValidationReport.error(unknownLaw)
                 .message("There is no known law named '" + unknownLaw.getName() + "'.")
@@ -122,6 +127,11 @@ public class SensorsSimulationValidator implements ModelVisitor {
 
     @Override
     public void visit(InterpolateSimulation interpolateSimulation) {
+        // TODO Fill there.
+    }
+
+    @Override
+    public void visit(FunctionSimulation functionSimulation) {
         // TODO Fill there.
     }
 

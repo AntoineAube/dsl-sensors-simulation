@@ -22,6 +22,7 @@ public class ReplayLaw extends Law {
         return sourceFilePath;
     }
 
+    @Override
     public Class getValuesType() {
         return valuesType;
     }
