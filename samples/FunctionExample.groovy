@@ -6,7 +6,7 @@ laws {
     }
 }
 
-stimulation {
+simulation {
     lot ('School') {
         contains 12 sensors 'place' following 'occupancy' parameterized {
             during 1.year sampleEvery 1.second

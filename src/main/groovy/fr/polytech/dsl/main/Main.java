@@ -15,6 +15,7 @@ public class Main {
 
     private static final String DEFAULT_DATABASE_NAME = "sensorsDatabase";
     private static final String DEFAULT_DATABASE_LOCATION = "http://localhost:8086";
+    private static final String NO_EXECUTION = "noExecution";
 
     public static void main(String[] args) throws ParseException, ModelValidationException {
         CommandLine arguments = getArguments(args);
@@ -31,7 +32,7 @@ public class Main {
 
         SensorSimulationDSL dsl = new SensorSimulationDSL(configuration);
 
-        dsl.evaluate(new File(arguments.getOptionValue(SCRIPT_FILE)));
+        dsl.evaluate(new File(arguments.getOptionValue(SCRIPT_FILE)), !arguments.hasOption(NO_EXECUTION));
     }
 
     private static CommandLine getArguments(String[] args) throws ParseException {
@@ -58,9 +59,16 @@ public class Main {
                 .hasArg()
                 .build();
 
+        Option noExecutionOption = Option.builder()
+                .longOpt(NO_EXECUTION)
+                .desc("Specify that the parsed model should not be executed")
+                .hasArg(false)
+                .build();
+
         options.addOption(scriptFileOption);
         options.addOption(databaseLocationOption);
         options.addOption(databaseNameOption);
+        options.addOption(noExecutionOption);
 
         return parser.parse(options, args);
     }

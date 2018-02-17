@@ -2,6 +2,8 @@ package fr.polytech.dsl.dsl
 
 import fr.polytech.dsl.dsl.execution.DatabaseConfiguration
 import fr.polytech.dsl.dsl.execution.SensorsSimulationExecutor
+import fr.polytech.dsl.dsl.model.structures.laws.InterpolateLaw
+import fr.polytech.dsl.dsl.model.structures.laws.Law
 import fr.polytech.dsl.dsl.validation.ModelValidationException
 import fr.polytech.dsl.dsl.validation.SensorsSimulationValidator
 import fr.polytech.dsl.dsl.validation.reporting.ValidationReport
@@ -37,12 +39,14 @@ class SensorSimulationDSL {
         return configuration
     }
 
-    void evaluate(File scriptFile) throws ModelValidationException {
+    void evaluate(File scriptFile, boolean shouldExecute = true) throws ModelValidationException {
         buildModel(scriptFile)
 
         validateModel()
 
-        executeModel()
+        if (shouldExecute) {
+            executeModel()
+        }
     }
 
     void buildModel(File scriptFile) {

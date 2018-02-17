@@ -1,10 +1,13 @@
 package fr.polytech.dsl.dsl.syntax.scopes
 
 import fr.polytech.dsl.dsl.SensorSimulationBinding
+import fr.polytech.dsl.dsl.model.structures.laws.InterpolateLaw
 import fr.polytech.dsl.dsl.model.structures.laws.Law
 import fr.polytech.dsl.dsl.model.structures.laws.RandomLaw
 import fr.polytech.dsl.dsl.model.structures.laws.ReplayLaw
+import fr.polytech.dsl.dsl.model.structures.laws.UnknownLaw
 import fr.polytech.dsl.dsl.syntax.scopes.categories.ReplayCategory
+import fr.polytech.dsl.dsl.syntax.scopes.laws.InterpolateScope
 import fr.polytech.dsl.dsl.syntax.scopes.laws.ReplayScope
 
 class LawsScope {
@@ -38,6 +41,24 @@ class LawsScope {
         }
 
         return law
+    }
+
+    static Law interpolate(double min, double max, Closure interpolatedPoints) {
+        InterpolateLaw law = new InterpolateLaw(min, max)
+
+        interpolatedPoints.delegate = new InterpolateScope(law)
+        interpolatedPoints.resolveStrategy = Closure.DELEGATE_FIRST
+
+        interpolatedPoints()
+
+        return law
+    }
+
+    static Law interpolate(List<Double> interval, Closure interpolatedPoints) {
+        double min = interval[0]
+        double max = interval[-1]
+
+        return interpolate(min, max, interpolatedPoints)
     }
 
     // Used a class instead of method chaining because "is" is a reserved operator.

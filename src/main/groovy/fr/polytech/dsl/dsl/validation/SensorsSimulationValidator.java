@@ -5,14 +5,8 @@ import fr.polytech.dsl.dsl.model.VisitableModel;
 import fr.polytech.dsl.dsl.model.structures.Lot;
 import fr.polytech.dsl.dsl.model.structures.SensorsSimulation;
 import fr.polytech.dsl.dsl.model.structures.SimulationContent;
-import fr.polytech.dsl.dsl.model.structures.laws.Law;
-import fr.polytech.dsl.dsl.model.structures.laws.RandomLaw;
-import fr.polytech.dsl.dsl.model.structures.laws.ReplayLaw;
-import fr.polytech.dsl.dsl.model.structures.laws.UnknownLaw;
-import fr.polytech.dsl.dsl.model.structures.simulations.RandomSimulation;
-import fr.polytech.dsl.dsl.model.structures.simulations.ReplaySimulation;
-import fr.polytech.dsl.dsl.model.structures.simulations.Simulation;
-import fr.polytech.dsl.dsl.model.structures.simulations.UnknownSimulation;
+import fr.polytech.dsl.dsl.model.structures.laws.*;
+import fr.polytech.dsl.dsl.model.structures.simulations.*;
 import fr.polytech.dsl.dsl.validation.reporting.ValidationReport;
 import fr.polytech.dsl.dsl.validation.validators.laws.ReplayLawValidator;
 
@@ -105,6 +99,11 @@ public class SensorsSimulationValidator implements ModelVisitor {
     }
 
     @Override
+    public void visit(InterpolateLaw interpolateLaw) {
+        // TODO Fill there.
+    }
+
+    @Override
     public void visit(UnknownLaw unknownLaw) {
         ValidationReport.error(unknownLaw)
                 .message("There is no known law named '" + unknownLaw.getName() + "'.")
@@ -119,6 +118,11 @@ public class SensorsSimulationValidator implements ModelVisitor {
     @Override
     public void visit(ReplaySimulation replaySimulation) {
         // Nothing to check yet.
+    }
+
+    @Override
+    public void visit(InterpolateSimulation interpolateSimulation) {
+        // TODO Fill there.
     }
 
     @Override
