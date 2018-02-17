@@ -8,6 +8,8 @@ import fr.polytech.dsl.dsl.model.structures.SimulationContent;
 import fr.polytech.dsl.dsl.model.structures.laws.*;
 import fr.polytech.dsl.dsl.model.structures.simulations.*;
 import fr.polytech.dsl.dsl.validation.reporting.ValidationReport;
+import fr.polytech.dsl.dsl.validation.validators.laws.FunctionLawValidator;
+import fr.polytech.dsl.dsl.validation.validators.laws.InterpolateLawValidator;
 import fr.polytech.dsl.dsl.validation.validators.laws.ReplayLawValidator;
 
 import java.util.HashMap;
@@ -100,12 +102,12 @@ public class SensorsSimulationValidator implements ModelVisitor {
 
     @Override
     public void visit(InterpolateLaw interpolateLaw) {
-        // TODO Fill there.
+        new InterpolateLawValidator(interpolateLaw, report).runValidation();
     }
 
     @Override
     public void visit(FunctionLaw functionLaw) {
-        // TODO Fill there.
+        new FunctionLawValidator(functionLaw, report).runValidation();
     }
 
     @Override
@@ -127,12 +129,24 @@ public class SensorsSimulationValidator implements ModelVisitor {
 
     @Override
     public void visit(InterpolateSimulation interpolateSimulation) {
-        // TODO Fill there.
+        validateTimeDependantSimulation(interpolateSimulation);
     }
 
     @Override
     public void visit(FunctionSimulation functionSimulation) {
-        // TODO Fill there.
+        validateTimeDependantSimulation(functionSimulation);
+    }
+
+    private void validateTimeDependantSimulation(TimeDependantSimulation simulation) {
+        if (simulation.getLoopPeriod() == null) {
+            ValidationReport.error(simulation)
+                    .message("The loop period for simulation '" + simulation.getSensorName() + "' is not specified.")
+                    .save(report);
+        } else if (simulation.getLoopPeriod() == 0) {
+            ValidationReport.error(simulation)
+                    .message("The loop period for simulation '" + simulation.getSensorName() + "' should not be zero.")
+                    .save(report);
+        }
     }
 
     @Override

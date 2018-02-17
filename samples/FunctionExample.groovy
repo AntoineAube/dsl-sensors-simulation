@@ -3,6 +3,7 @@ laws {
         returning Integer
 
         when 0..1 then {x ** 2}
+        when 1..5 then {1}
         when 1..5 then {1 / x}
         otherwise {x - 1}
     }

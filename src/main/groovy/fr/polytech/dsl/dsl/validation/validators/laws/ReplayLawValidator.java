@@ -9,10 +9,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class ReplayLawValidator extends ModelValidator<ReplayLaw> {
+public class ReplayLawValidator extends LawValidator<ReplayLaw> {
 
     private static final List<String> AUTHORIZED_REPLAY_FORMAT = Arrays.asList("csv", "json");
-    private static final List<Class> AUTHORIZED_VALUES_TYPES = Arrays.asList(String.class, Integer.class, Boolean.class);
 
     public ReplayLawValidator(ReplayLaw model, ValidationReport report) {
         super(model, report);
@@ -60,16 +59,6 @@ public class ReplayLawValidator extends ModelValidator<ReplayLaw> {
             ValidationReport.error(model)
                     .message("The source file for the replay law '" + model.getName() + "' does not exist.")
                     .save(report);
-        }
-    }
-
-    private void checkValuesType() {
-        boolean valuesHaveAuthorizedType = AUTHORIZED_VALUES_TYPES.stream()
-                .anyMatch(clazz -> clazz == model.getValuesType());
-
-        if (!valuesHaveAuthorizedType) {
-            ValidationReport.error(model)
-                    .message("The selected column type for the replay law '" + model.getName() + "' is not authorized.");
         }
     }
 

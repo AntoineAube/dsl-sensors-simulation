@@ -4,24 +4,23 @@ import fr.polytech.dsl.dsl.model.ModelVisitor;
 import fr.polytech.dsl.dsl.model.structures.simulations.FunctionSimulation;
 import fr.polytech.dsl.dsl.model.structures.simulations.Simulation;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 
 public class FunctionLaw extends TimeDependantLaw {
 
     private Class valuesType;
-    private final List<FunctionCase> functionFragments;
+    private final SortedSet<FunctionCase> functionFragments;
     private Function<Double, Object> otherwiseFragment;
 
     public FunctionLaw(double minimumTime, double maximumTime) {
         super(minimumTime, maximumTime);
 
         valuesType = Object.class;
-        functionFragments = new ArrayList<>();
+        functionFragments = new TreeSet<>();
     }
 
-    public List<FunctionCase> getFunctionFragments() {
+    public Set<FunctionCase> getFunctionFragments() {
         return functionFragments;
     }
 
@@ -52,7 +51,7 @@ public class FunctionLaw extends TimeDependantLaw {
         visitor.visit(this);
     }
 
-    public static class FunctionCase {
+    public static class FunctionCase implements Comparable<FunctionCase> {
         private double minimumTime;
         private double maximumTime;
 
@@ -74,6 +73,24 @@ public class FunctionLaw extends TimeDependantLaw {
 
         public Function<Double, Object> getFunctionFragment() {
             return functionFragment;
+        }
+
+        @Override
+        public int compareTo(FunctionCase functionCase) {
+            int compareMinimum = Double.compare(minimumTime, functionCase.minimumTime);
+
+            if (compareMinimum == 0) {
+                return Double.compare(maximumTime, functionCase.maximumTime);
+            }
+
+            return Double.compare(minimumTime, functionCase.minimumTime);
+        }
+
+        @Override
+        public boolean equals(Object functionCase) {
+            return functionCase instanceof FunctionCase &&
+                    minimumTime == ((FunctionCase) functionCase).minimumTime &&
+                    maximumTime == ((FunctionCase) functionCase).maximumTime;
         }
     }
 }
