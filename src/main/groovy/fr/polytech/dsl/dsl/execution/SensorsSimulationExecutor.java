@@ -1,7 +1,8 @@
 package fr.polytech.dsl.dsl.execution;
 
-import fr.polytech.dsl.dsl.execution.executors.RandomExecutor;
-import fr.polytech.dsl.dsl.execution.executors.ReplayExecutor;
+import fr.polytech.dsl.dsl.execution.executors.*;
+import fr.polytech.dsl.dsl.execution.executors.functions.Constant;
+import fr.polytech.dsl.dsl.execution.executors.functions.Expression;
 import fr.polytech.dsl.dsl.model.ModelVisitor;
 import fr.polytech.dsl.dsl.model.structures.Lot;
 import fr.polytech.dsl.dsl.model.structures.SensorsSimulation;
@@ -13,7 +14,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import fr.polytech.dsl.dsl.execution.executors.Executor;
 
 public class SensorsSimulationExecutor implements ModelVisitor {
 
@@ -88,12 +88,41 @@ public class SensorsSimulationExecutor implements ModelVisitor {
 
     @Override
     public void visit(InterpolateSimulation interpolateSimulation) {
-        // TODO Fill there.
+        for (int i = 0; i < currentSimulationNumber; i++) {
+            InterpolationExecutor exec = new InterpolationExecutor(
+                    currentLot.getName() + ":" + interpolateSimulation.getSensorName() + ":" + i,
+                    interpolateSimulation.getDateFrom(),
+                    interpolateSimulation.getDuration(),
+                    interpolateSimulation.getNoise(),
+                    1000.0f / interpolateSimulation.getSamplingFrequency().getFrequency(),
+                    0, // TODO Get min X from InterpolateSimulation
+                    0, // TODO Get max X from InterpolateSimulation
+                    1000, // TODO Get period from InterpolateSimulation
+                    interpolateSimulation.getAssociatedLaw().getInterpolatedPoints()
+            );
+            executors.add(exec);
+        }
     }
 
     @Override
     public void visit(FunctionSimulation functionSimulation) {
-        // TODO Fill there.
+        // TODO Parse and construct expression tree with operations, constants and variables
+        Expression expression = new Constant(3);
+
+        for (int i = 0; i < currentSimulationNumber; i++) {
+            FunctionExecutor exec = new FunctionExecutor(
+                    currentLot.getName() + ":" + functionSimulation.getSensorName() + ":" + i,
+                    functionSimulation.getDateFrom(),
+                    functionSimulation.getDuration(),
+                    functionSimulation.getNoise(),
+                    1000.0f / functionSimulation.getSamplingFrequency().getFrequency(),
+                    0, // TODO Get min X from FunctionSimulation
+                    0, // TODO Get max X from FunctionSimulation
+                    1000, // TODO Get period from FunctionSimulation
+                    expression
+            );
+            executors.add(exec);
+        }
     }
 
     @Override
