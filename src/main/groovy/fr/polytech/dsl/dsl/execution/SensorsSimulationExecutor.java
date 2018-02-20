@@ -95,9 +95,9 @@ public class SensorsSimulationExecutor implements ModelVisitor {
                     interpolateSimulation.getDuration(),
                     interpolateSimulation.getNoise(),
                     1000.0f / interpolateSimulation.getSamplingFrequency().getFrequency(),
-                    0, // TODO Get min X from InterpolateSimulation
-                    0, // TODO Get max X from InterpolateSimulation
-                    1000, // TODO Get period from InterpolateSimulation
+                    interpolateSimulation.getAssociatedLaw().getMinimumTime(),
+                    interpolateSimulation.getAssociatedLaw().getMaximumTime(),
+                    interpolateSimulation.getLoopPeriod(),
                     interpolateSimulation.getAssociatedLaw().getInterpolatedPoints()
             );
             executors.add(exec);
@@ -106,9 +106,6 @@ public class SensorsSimulationExecutor implements ModelVisitor {
 
     @Override
     public void visit(FunctionSimulation functionSimulation) {
-        // TODO Parse and construct expression tree with operations, constants and variables
-        Expression expression = new Constant(3);
-
         for (int i = 0; i < currentSimulationNumber; i++) {
             FunctionExecutor exec = new FunctionExecutor(
                     currentLot.getName() + ":" + functionSimulation.getSensorName() + ":" + i,
@@ -116,10 +113,11 @@ public class SensorsSimulationExecutor implements ModelVisitor {
                     functionSimulation.getDuration(),
                     functionSimulation.getNoise(),
                     1000.0f / functionSimulation.getSamplingFrequency().getFrequency(),
-                    0, // TODO Get min X from FunctionSimulation
-                    0, // TODO Get max X from FunctionSimulation
-                    1000, // TODO Get period from FunctionSimulation
-                    expression
+                    functionSimulation.getAssociatedLaw().getMinimumTime(),
+                    functionSimulation.getAssociatedLaw().getMaximumTime(),
+                    functionSimulation.getLoopPeriod(),
+                    functionSimulation.getAssociatedLaw().getFunctionFragments(),
+                    functionSimulation.getAssociatedLaw().getOtherwiseFragment()
             );
             executors.add(exec);
         }

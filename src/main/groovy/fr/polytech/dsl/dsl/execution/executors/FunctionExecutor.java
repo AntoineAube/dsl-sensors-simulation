@@ -3,13 +3,18 @@ package fr.polytech.dsl.dsl.execution.executors;
 import fr.polytech.dsl.dsl.execution.Measure;
 import fr.polytech.dsl.dsl.execution.executors.Executor;
 import fr.polytech.dsl.dsl.execution.executors.functions.Expression;
+import fr.polytech.dsl.dsl.model.structures.laws.FunctionLaw.FunctionCase;
+
+import java.util.Set;
+import java.util.function.Function;
 
 public class FunctionExecutor extends Executor{
-    private Expression expression;
     private double max;
     private double offset;
     private double period;
     private double nextUnscaledVariable;
+    private Set<FunctionCase> functions;
+    private Function<Double, Object> otherwise;
 
     public FunctionExecutor(String name,
                             long dateFrom,
@@ -19,9 +24,11 @@ public class FunctionExecutor extends Executor{
                             double min,
                             double max,
                             double period,
-                            Expression expression){
+                            Set<FunctionCase> functions,
+                            Function<Double, Object> otherwise){
         super(name, dateFrom, duration, noise, samplingPeriod);
-        this.expression = expression;
+        this.functions = functions;
+        this.otherwise = otherwise;
         this.max = max - min;
         this.offset = min;
         this.period = period;
@@ -34,7 +41,23 @@ public class FunctionExecutor extends Executor{
         double variable = (max * nextUnscaledVariable) / period;
         variable += offset;
 
-        Measure measure = new Measure(lastTimeGet, expression.getValue(variable), name);
+        Function<Double, Object> function = null;
+        for (FunctionCase f : functions){
+            if (variable >= f.getMinimumTime() && variable < f.getMaximumTime()){
+                function = f.getFunctionFragment();
+            }
+        }
+
+        if (function == null){
+            function = otherwise;
+        }
+
+        Object value = function.apply(variable);
+        if (value instanceof Double){
+            value = (Integer)((Double) value).intValue();
+        }
+
+        Measure measure = new Measure(lastTimeGet, value, name);
 
         nextUnscaledVariable += samplingPeriod;
         lastTimeGet += samplingPeriod;
