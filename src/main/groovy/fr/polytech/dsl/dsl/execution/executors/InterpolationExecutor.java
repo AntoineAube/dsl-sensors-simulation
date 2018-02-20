@@ -6,6 +6,7 @@ import fr.polytech.dsl.dsl.model.structures.laws.InterpolateLaw.Point;
 import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InterpolationExecutor extends Executor {
@@ -25,13 +26,25 @@ public class InterpolationExecutor extends Executor {
                                  double period,
                                  List<Point> listPoints){
         super(name, dateFrom, duration, noise, samplingPeriod);
+        List<Point> listCopy = new ArrayList<>(listPoints);
 
-        double[] x = new double[listPoints.size()];
-        double[] y = new double[listPoints.size()];
+        Point first = listCopy.get(0);
+        Point last = listCopy.get(listPoints.size() - 1);
 
-        for (int i = 0; i < listPoints.size(); ++i){
-            x[i] = listPoints.get(i).getX();
-            y[i] = listPoints.get(i).getY();
+        // If the first point doesnt start exactly where the range of the function starts, add a point
+        if (first.getX() > min){
+            listCopy.add(0, new Point(min - (max - last.getX()), last.getY()));
+        }
+
+        // Add a point after the end of the range to have a nice and cool interpolation
+        listCopy.add(new Point(max + first.getX(), first.getY()));
+        
+        double[] x = new double[listCopy.size()];
+        double[] y = new double[listCopy.size()];
+
+        for (int i = 0; i < listCopy.size(); ++i){
+            x[i] = listCopy.get(i).getX();
+            y[i] = listCopy.get(i).getY();
         }
 
         LinearInterpolator interpolator = new LinearInterpolator();
@@ -49,7 +62,7 @@ public class InterpolationExecutor extends Executor {
         double variable = (max * nextUnscaledVariable) / period;
         variable += offset;
 
-        Measure measure = new Measure(lastTimeGet, function.value(variable), name);
+        Measure measure = new Measure(lastTimeGet, (Integer)((int)function.value(variable)), name);
 
         nextUnscaledVariable += samplingPeriod;
         lastTimeGet += samplingPeriod;
