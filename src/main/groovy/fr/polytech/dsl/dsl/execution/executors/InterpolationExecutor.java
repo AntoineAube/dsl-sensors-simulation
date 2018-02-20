@@ -62,7 +62,8 @@ public class InterpolationExecutor extends Executor {
         double variable = (max * nextUnscaledVariable) / period;
         variable += offset;
 
-        Measure measure = new Measure(lastTimeGet, (Integer)((int)function.value(variable)), name);
+        Integer value = (Integer)((int)function.value(variable));
+        Measure measure = new Measure(lastTimeGet, value, name);
 
         nextUnscaledVariable += samplingPeriod;
         lastTimeGet += samplingPeriod;

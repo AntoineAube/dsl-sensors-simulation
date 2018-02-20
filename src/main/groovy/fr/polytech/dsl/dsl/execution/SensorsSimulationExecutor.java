@@ -158,11 +158,11 @@ public class SensorsSimulationExecutor implements ModelVisitor {
         MeasureSerializer serializer = new MeasureSerializer(configuration);
 
         for (Executor exec : executors) {
-            System.out.print("|");
+//            System.out.print("|");
             while (!exec.hasFinished()){
                 Measure measure = exec.getNext();
                 if(measure != null) {
-                    System.out.print(".");
+//                    System.out.print(".");
                     serializer.saveMeasure(measure);
                 }
             }
