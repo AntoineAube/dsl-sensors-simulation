@@ -1,0 +1,13 @@
+{
+  "dashboard":{
+    "id": null,
+    "title": "Dashboard Title",
+    "panels": [],
+    "time": {
+      "from": "now",
+      "to": "now+1h"
+    },
+    "timezone": "",
+    "version": 0
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "datasource": "sensors",
+  "targets": [
+    {
+      "groupBy": [],
+      "measurement": "", //"School:day:0"
+      "orderByTime": "ASC",
+      "policy": "autogen",
+      "refId": "A",
+      "resultFormat": "time_series",
+      "select": [
+        [
+          {
+            "params": [
+              "*"
+            ],
+            "type": "field"
+          }
+        ]
+      ],
+      "tags": []
+    }
+  ],
+  "title": "Panel Title",
+  "transform": "timeseries_to_rows",
+  "type": "table"
+}
