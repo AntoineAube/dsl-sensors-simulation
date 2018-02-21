@@ -9,5 +9,6 @@
     },
     "timezone": "",
     "version": 0
-  }
+  },
+  "overwrite": true
 }
