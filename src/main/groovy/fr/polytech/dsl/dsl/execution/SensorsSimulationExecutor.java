@@ -23,9 +23,11 @@ public class SensorsSimulationExecutor implements ModelVisitor {
     private int currentSimulationNumber;
 
     private List<Executor> executors;
+    private final DatabaseConfiguration configuration;
 
-    public SensorsSimulationExecutor(){
+    public SensorsSimulationExecutor(DatabaseConfiguration configuration){
         executors = new ArrayList<>();
+        this.configuration = configuration;
     }
 
     @Override
@@ -133,7 +135,7 @@ public class SensorsSimulationExecutor implements ModelVisitor {
 
     @Override
     public void visit(Dashboard dashboard) {
-        DashboardSerializer serializer = new DashboardSerializer("127.0.0.1:3000", GRAFANA_API_KEY);
+        DashboardSerializer serializer = new DashboardSerializer("http://localhost:3000", configuration.getGrafanaAPIKey());
         try {
             serializer.saveDashboard(dashboard);
         } catch (IOException e) {

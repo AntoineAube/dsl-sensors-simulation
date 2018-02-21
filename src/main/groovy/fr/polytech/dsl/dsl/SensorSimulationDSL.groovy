@@ -73,7 +73,7 @@ class SensorSimulationDSL {
     }
 
     void executeModel() {
-        SensorsSimulationExecutor executor = new SensorsSimulationExecutor()
+        SensorsSimulationExecutor executor = new SensorsSimulationExecutor(databaseConfiguration)
 
         binding.sensorsSimulation.accept(executor)
 

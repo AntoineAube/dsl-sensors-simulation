@@ -4,6 +4,7 @@ public class DatabaseConfiguration {
 
     private String databaseName;
     private String databaseLocation;
+    private String grafanaAPIKey;
 
     public DatabaseConfiguration(String databaseName, String databaseLocation) {
         this.databaseName = databaseName;
@@ -24,5 +25,13 @@ public class DatabaseConfiguration {
 
     public void setDatabaseLocation(String databaseLocation) {
         this.databaseLocation = databaseLocation;
+    }
+
+    public String getGrafanaAPIKey() {
+        return grafanaAPIKey;
+    }
+
+    public void setGrafanaAPIKey(String grafanaAPIKey) {
+        this.grafanaAPIKey = grafanaAPIKey;
     }
 }

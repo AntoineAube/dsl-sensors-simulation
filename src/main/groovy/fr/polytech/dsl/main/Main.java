@@ -17,8 +17,7 @@ public class Main {
     private static final String DEFAULT_DATABASE_LOCATION = "http://localhost:8086";
     private static final String NO_EXECUTION = "noExecution";
 
-    public static final String GRAFANA_API_KEY = "";
-
+    public static final String GRAFANA_API_KEY = "grafanaAPIKey";
 
     public static void main(String[] args) throws ParseException, ModelValidationException {
         CommandLine arguments = getArguments(args);
@@ -31,6 +30,10 @@ public class Main {
 
         if (arguments.hasOption(DATABASE_NAME)) {
             configuration.setDatabaseName(arguments.getOptionValue(DATABASE_NAME));
+        }
+
+        if (arguments.hasOption(GRAFANA_API_KEY)){
+            configuration.setGrafanaAPIKey(arguments.getOptionValue(GRAFANA_API_KEY));
         }
 
         SensorSimulationDSL dsl = new SensorSimulationDSL(configuration);

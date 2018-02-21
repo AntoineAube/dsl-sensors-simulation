@@ -29,6 +29,7 @@ public class DashboardSerializer {
     public DashboardSerializer(String serverURL, String apiKey) {
         this.url = serverURL;
         this.apiKey = apiKey;
+        System.out.println(apiKey);
     }
 
     private String getFile(String fileName) {
@@ -72,7 +73,7 @@ public class DashboardSerializer {
             if(panel.getType() == Panel.PanelType.GRAPH){
                 panel_object.put("type","graph");
             }
-            dashboard_object.getJSONObject("dashboards").getJSONArray("panels").put(panel_object);
+            dashboard_object.getJSONObject("dashboard").getJSONArray("panels").put(panel_object);
         }
         dashboard_object.getJSONObject("dashboard").getJSONObject("time").put("from",dashboard.getFrom());
         dashboard_object.getJSONObject("dashboard").getJSONObject("time").put("to",dashboard.getTo());
