@@ -31,7 +31,7 @@ public class SensorsSimulationExecutor implements ModelVisitor {
     @Override
     public void visit(SensorsSimulation sensorsSimulation) {
         sensorsSimulation.getSimulation().accept(this);
-        sensorsSimulation.getDashboard().accept(this);
+        sensorsSimulation.getDashboards().forEach(dashboard -> dashboard.accept(this));
     }
 
     @Override
