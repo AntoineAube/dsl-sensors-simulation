@@ -2,16 +2,16 @@ laws {
     law 'occupancy' is function(0..24) {
         returning Integer
 
-        when 0..1 then {x ** 2}
-        when 1..5 then {1 / x}
-        otherwise {x - 1}
+        when 0..4 then {x}
+        when 4..8 then {10}
+        otherwise {x * 2}
     }
 }
 
 simulation {
-    lot ('School') {
-        contains 12 sensors 'place' following 'occupancy' parameterized {
-            during 1.year sampleEvery 1.second
+    lot ('Function') {
+        contains 1 sensors 'place' following 'occupancy' parameterized {
+            during 1.year sampleEvery 1.minute
 
             period 3.hours
         }

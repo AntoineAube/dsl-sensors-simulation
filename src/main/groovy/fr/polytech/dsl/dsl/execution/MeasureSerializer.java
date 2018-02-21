@@ -16,6 +16,8 @@ public class MeasureSerializer {
     private boolean initialized;
     private final DatabaseConfiguration databaseConfiguration;
 
+    private static InfluxDB connection = null;
+
     public MeasureSerializer(DatabaseConfiguration databaseConfiguration) {
         this.databaseConfiguration = databaseConfiguration;
 
@@ -48,12 +50,12 @@ public class MeasureSerializer {
             initialize();
         }
 
-        InfluxDB connection = InfluxDBFactory.connect(databaseConfiguration.getDatabaseLocation());
+//        InfluxDB connection = InfluxDBFactory.connect(databaseConfiguration.getDatabaseLocation());
         connection.setDatabase(databaseConfiguration.getDatabaseName());
 
         connection.write(intoPoint(measure));
 
-        connection.close();
+//        connection.close();
     }
 
     private static Point intoPoint(Measure measure) {
@@ -74,7 +76,7 @@ public class MeasureSerializer {
     }
 
     private void initialize() {
-        InfluxDB connection = InfluxDBFactory.connect(databaseConfiguration.getDatabaseLocation());
+        connection = InfluxDBFactory.connect(databaseConfiguration.getDatabaseLocation());
 
         if (!connection.databaseExists(databaseConfiguration.getDatabaseName())) {
             connection.createDatabase(databaseConfiguration.getDatabaseName());
@@ -83,7 +85,5 @@ public class MeasureSerializer {
         }
 
         initialized = true;
-
-        connection.close();
     }
 }
