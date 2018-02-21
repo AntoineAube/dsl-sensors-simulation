@@ -1,5 +1,6 @@
 package fr.polytech.dsl.dsl.model.structures.grafana;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
 public class Dashboard {
 
     private String title;
-    private List<Panel> panels;
+    private List<Panel> panels = new ArrayList<>();
     private Date from;
     private Date to;
 
@@ -29,6 +30,10 @@ public class Dashboard {
 
     public void setPanels(List<Panel> panels) {
         this.panels = panels;
+    }
+
+    public void addPanel(Panel panel){
+        panels.add(panel);
     }
 
     public Date getFrom() {
