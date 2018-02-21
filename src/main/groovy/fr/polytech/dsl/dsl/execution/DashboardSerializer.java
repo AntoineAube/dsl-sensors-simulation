@@ -8,6 +8,7 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
@@ -75,8 +76,9 @@ public class DashboardSerializer {
             }
             dashboard_object.getJSONObject("dashboard").getJSONArray("panels").put(panel_object);
         }
-        dashboard_object.getJSONObject("dashboard").getJSONObject("time").put("from",dashboard.getFrom());
-        dashboard_object.getJSONObject("dashboard").getJSONObject("time").put("to",dashboard.getTo());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dashboard_object.getJSONObject("dashboard").getJSONObject("time").put("from",format.format(dashboard.getFrom()));
+        dashboard_object.getJSONObject("dashboard").getJSONObject("time").put("to",format.format(dashboard.getTo()));
         System.out.println(dashboard_object.toString());
         return dashboard_object.toString();
     }

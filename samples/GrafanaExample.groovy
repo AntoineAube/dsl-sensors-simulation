@@ -12,7 +12,7 @@ simulation {
     lot ('School') {
         contains 12 sensors 'place' following 'occupancy' parameterized {
             during 1.minute sampleEvery 1.second
-
+            from "25/04/2017 15:00"
             period 3.hours
         }
     }
@@ -20,10 +20,10 @@ simulation {
 
 visualization {
     dashboard ("Prout"){
-        from "24/04/2017 15:01"
-        to "25/04/2017 15:00"
+        from "25/04/2017 15:00"
+        to "25/04/2017 15:01"
 
-        graph ("Croute") {
+        graph ("Croute2") {
             lot 'School'
             sensor 'place'
             number 2

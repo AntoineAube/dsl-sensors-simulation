@@ -5,6 +5,8 @@ import fr.polytech.dsl.dsl.model.structures.simulations.modifications.Noise
 import fr.polytech.dsl.dsl.model.structures.simulations.modifications.SamplingFrequency
 import groovy.time.BaseDuration
 
+import java.text.SimpleDateFormat
+
 abstract class SimulationScope {
 
     private final Simulation simulation
@@ -15,6 +17,14 @@ abstract class SimulationScope {
 
     protected Simulation getSimulation() {
         return simulation
+    }
+
+    def from(String string){
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm")
+
+        Date fromDate = format.parse(string)
+
+        simulation.setDateFrom(fromDate.getTime())
     }
 
     def noise(List<Integer> noiseValues) {
