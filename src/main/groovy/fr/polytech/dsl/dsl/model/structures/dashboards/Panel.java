@@ -15,7 +15,7 @@ public class Panel implements VisitableModel {
     private final String title;
     private Lot lot;
     private Simulation sensor;
-    private int sensorNumber;
+    private Integer sensorNumber = null;
     private PanelType type;
 
     public Panel(String title) {
@@ -52,7 +52,7 @@ public class Panel implements VisitableModel {
         this.sensor = sensor;
     }
 
-    public int getSensorNumber() {
+    public Integer getSensorNumber() {
         return sensorNumber;
     }
 

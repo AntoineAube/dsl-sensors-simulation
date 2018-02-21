@@ -2,7 +2,6 @@ package fr.polytech.dsl.dsl.execution.executors;
 
 import fr.polytech.dsl.dsl.execution.Measure;
 import fr.polytech.dsl.dsl.execution.executors.Executor;
-import fr.polytech.dsl.dsl.execution.executors.functions.Expression;
 import fr.polytech.dsl.dsl.model.structures.laws.FunctionLaw.FunctionCase;
 
 import java.util.Set;

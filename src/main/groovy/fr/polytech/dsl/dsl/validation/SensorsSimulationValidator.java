@@ -160,14 +160,46 @@ public class SensorsSimulationValidator implements ModelVisitor {
 
     @Override
     public void visit(Dashboard dashboard) {
-        // TODO Implement the validation. Check dates, title.
+        if (dashboard.getTitle() == null || dashboard.getTitle().equals("")) {
+            ValidationReport.error(dashboard)
+                    .message("Panel name is not specified.")
+                    .save(report);
+        }
+
+        if (dashboard.getFrom() == null) {
+            ValidationReport.error(dashboard)
+                    .message("Panel from date is not specified.")
+                    .save(report);
+        }
+
+        if (dashboard.getTo() == null) {
+            ValidationReport.error(dashboard)
+                    .message("Panel to date is not specified.")
+                    .save(report);
+        }
 
         dashboard.getPanels().forEach(panel -> panel.accept(this));
     }
 
     @Override
     public void visit(Panel panel) {
-        // TODO Implement the validation. Check that the lot, the sensors and the numbers exists in the model.
+        if (panel.getSensor() == null) {
+            ValidationReport.error(panel)
+                    .message("Panel sensor is not set.")
+                    .save(report);
+        }
+
+        if (panel.getLot() == null) {
+            ValidationReport.error(panel)
+                    .message("Panel lot is not set.")
+                    .save(report);
+        }
+
+        if (panel.getSensorNumber() == null) {
+            ValidationReport.error(panel)
+                    .message("Panel sensor number is not set.")
+                    .save(report);
+        }
     }
 
     private void checkNamesValidity(String modelName, VisitableModel source, List<String> names) {

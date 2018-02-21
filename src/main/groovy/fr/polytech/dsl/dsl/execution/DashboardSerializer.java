@@ -62,7 +62,8 @@ public class DashboardSerializer {
         dashboard_object.getJSONObject("dashboard").put("title",dashboard.getTitle());
         for(Panel panel : dashboard.getPanels()){
             JSONObject panel_object = new JSONObject(panel_json);
-            String sensorName = panel.getLot()+":"+panel.getSensor()+":"+panel.getSensorNumber();
+            String sensorName = panel.getLot().getName() + ":" + panel.getSensor().getSensorName() +
+                    ":" + panel.getSensorNumber();
             panel_object.getJSONArray("targets").getJSONObject(0).put("measurement",sensorName);
             panel_object.put("title",panel.getTitle());
             if(panel.getType() == Panel.PanelType.TABLE){
@@ -75,6 +76,7 @@ public class DashboardSerializer {
         }
         dashboard_object.getJSONObject("dashboard").getJSONObject("time").put("from",dashboard.getFrom());
         dashboard_object.getJSONObject("dashboard").getJSONObject("time").put("to",dashboard.getTo());
+        System.out.println(dashboard_object.toString());
         return dashboard_object.toString();
     }
 
@@ -116,26 +118,25 @@ public class DashboardSerializer {
     }
 
     public static void main(String[] args) throws IOException {
-        Dashboard d = new Dashboard();
-        d.setTitle("Test #"+new Random().nextInt());
-        d.setFrom(new Date(10000000));
-        d.setTo(new Date(20000000));
-        Panel p1 = new Panel();
-        p1.setTitle("panel1");
-        p1.setLot("School");
-        p1.setSensor("temperature random");
-        p1.setSensorNumber(0);
-        p1.setType(Panel.PanelType.GRAPH);
-        d.addPanel(p1);
-        Panel p2 = new Panel();
-        p2.setTitle("panel2");
-        p2.setLot("School");
-        p2.setSensor("temperature random");
-        p2.setSensorNumber(1);
-        p2.setType(Panel.PanelType.TABLE);
-        d.addPanel(p2);
-        DashboardSerializer ser = new DashboardSerializer("http://localhost:3000","eyJrIjoicjg3SmZuMFhoTWxLTEFoUDdUcUFNaUx2M1NENnFoRWgiLCJuIjoia2V5IiwiaWQiOjF9");
-        ser.saveDashboard(d);
+//        Dashboard d = new Dashboard();
+//        d.setTitle("Test #"+new Random().nextInt());
+//        d.setFrom(new Date(10000000));
+//        d.setTo(new Date(20000000));
+//        Panel p1 = new Panel("panel1");
+//        p1.setLot("School");
+//        p1.setSensor("temperature random");
+//        p1.setSensorNumber(0);
+//        p1.setType(Panel.PanelType.GRAPH);
+//        d.addPanel(p1);
+//        Panel p2 = new Panel();
+//        p2.setTitle("panel2");
+//        p2.setLot("School");
+//        p2.setSensor("temperature random");
+//        p2.setSensorNumber(1);
+//        p2.setType(Panel.PanelType.TABLE);
+//        d.addPanel(p2);
+//        DashboardSerializer ser = new DashboardSerializer("http://localhost:3000","eyJrIjoicjg3SmZuMFhoTWxLTEFoUDdUcUFNaUx2M1NENnFoRWgiLCJuIjoia2V5IiwiaWQiOjF9");
+//        ser.saveDashboard(d);
     }
 
 }

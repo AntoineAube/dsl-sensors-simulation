@@ -17,6 +17,9 @@ public class Main {
     private static final String DEFAULT_DATABASE_LOCATION = "http://localhost:8086";
     private static final String NO_EXECUTION = "noExecution";
 
+    public static final String GRAFANA_API_KEY = "";
+
+
     public static void main(String[] args) throws ParseException, ModelValidationException {
         CommandLine arguments = getArguments(args);
 
@@ -65,10 +68,17 @@ public class Main {
                 .hasArg(false)
                 .build();
 
+        Option grafanaApiKeyOption = Option.builder("k")
+                .longOpt(GRAFANA_API_KEY)
+                .desc("The grafana Api Key.")
+                .hasArg()
+                .build();
+
         options.addOption(scriptFileOption);
         options.addOption(databaseLocationOption);
         options.addOption(databaseNameOption);
         options.addOption(noExecutionOption);
+        options.addOption(grafanaApiKeyOption);
 
         return parser.parse(options, args);
     }

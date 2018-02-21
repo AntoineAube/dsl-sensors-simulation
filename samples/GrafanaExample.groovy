@@ -11,7 +11,7 @@ laws {
 simulation {
     lot ('School') {
         contains 12 sensors 'place' following 'occupancy' parameterized {
-            during 1.year sampleEvery 1.second
+            during 1.minute sampleEvery 1.second
 
             period 3.hours
         }
@@ -19,8 +19,8 @@ simulation {
 }
 
 dashboard ("Prout"){
-    from "20171"
-    to ""
+    from "24/04/2017 15:01"
+    to "25/04/2017 15:00"
 
     graph ("Croute") {
         lot 'School'

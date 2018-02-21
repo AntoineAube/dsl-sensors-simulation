@@ -4,6 +4,8 @@ import fr.polytech.dsl.dsl.SensorSimulationBinding
 import fr.polytech.dsl.dsl.model.structures.dashboards.Panel
 import fr.polytech.dsl.dsl.model.structures.dashboards.Panel.PanelType
 
+import java.text.SimpleDateFormat
+
 class DashboardScope {
 
     private final SensorSimulationBinding binding
@@ -16,7 +18,7 @@ class DashboardScope {
         Panel addedPanel = new Panel(panelName)
         addedPanel.type = chosenType
 
-        panelParameters.delegate = new PanelScope(addedPanel)
+        panelParameters.delegate = new PanelScope(binding, addedPanel)
         panelParameters.resolveStrategy = Closure.DELEGATE_FIRST
 
         panelParameters()
@@ -33,15 +35,17 @@ class DashboardScope {
     }
 
     def from(String stringifiedDate) {
-        // TODO Make the string into date.
-        Date fromDate = new Date()
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm")
+
+        Date fromDate = format.parse(stringifiedDate)
 
         binding.sensorsSimulation.dashboard.from = fromDate
     }
 
     def to(String stringifiedDate) {
-        // TODO Make the string into date.
-        Date toDate = new Date()
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm")
+
+        Date toDate = format.parse(stringifiedDate)
 
         binding.sensorsSimulation.dashboard.to = toDate
     }

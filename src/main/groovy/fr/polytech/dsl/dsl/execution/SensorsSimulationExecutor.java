@@ -1,8 +1,6 @@
 package fr.polytech.dsl.dsl.execution;
 
 import fr.polytech.dsl.dsl.execution.executors.*;
-import fr.polytech.dsl.dsl.execution.executors.functions.Constant;
-import fr.polytech.dsl.dsl.execution.executors.functions.Expression;
 import fr.polytech.dsl.dsl.model.ModelVisitor;
 import fr.polytech.dsl.dsl.model.structures.Lot;
 import fr.polytech.dsl.dsl.model.structures.SensorsSimulation;
@@ -16,6 +14,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static fr.polytech.dsl.main.Main.GRAFANA_API_KEY;
 
 public class SensorsSimulationExecutor implements ModelVisitor {
 
@@ -31,6 +31,7 @@ public class SensorsSimulationExecutor implements ModelVisitor {
     @Override
     public void visit(SensorsSimulation sensorsSimulation) {
         sensorsSimulation.getSimulation().accept(this);
+        sensorsSimulation.getDashboard().accept(this);
     }
 
     @Override
@@ -132,12 +133,17 @@ public class SensorsSimulationExecutor implements ModelVisitor {
 
     @Override
     public void visit(Dashboard dashboard) {
-        // TODO Implement the execution.
+        DashboardSerializer serializer = new DashboardSerializer("127.0.0.1:3000", GRAFANA_API_KEY);
+        try {
+            serializer.saveDashboard(dashboard);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void visit(Panel panel) {
-        // TODO Implement the execution.
+        // nothing to do here
     }
 
     @Override
@@ -152,12 +158,12 @@ public class SensorsSimulationExecutor implements ModelVisitor {
 
     @Override
     public void visit(InterpolateLaw interpolateLaw) {
-        // TODO Fill there.
+        // nothing to do here
     }
 
     @Override
     public void visit(FunctionLaw functionLaw) {
-        // TODO Fill there.
+        // nothing to do here
     }
 
     @Override
