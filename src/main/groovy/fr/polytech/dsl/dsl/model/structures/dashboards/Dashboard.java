@@ -15,7 +15,7 @@ import java.util.List;
 public class Dashboard implements VisitableModel {
 
     private String title;
-    private final List<Panel> panels;
+    private List<Panel> panels = new ArrayList<>();
     private Date from;
     private Date to;
 
@@ -33,6 +33,14 @@ public class Dashboard implements VisitableModel {
 
     public List<Panel> getPanels() {
         return panels;
+    }
+
+    public void setPanels(List<Panel> panels) {
+        this.panels = panels;
+    }
+
+    public void addPanel(Panel panel){
+        panels.add(panel);
     }
 
     public Date getFrom() {

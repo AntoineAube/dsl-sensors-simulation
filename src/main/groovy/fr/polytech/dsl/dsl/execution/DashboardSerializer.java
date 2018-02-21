@@ -6,7 +6,10 @@ import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -56,10 +59,11 @@ public class DashboardSerializer {
         final String dashboard_json = getFile(DASHBOARD_JSON_FILE);
         final String panel_json = getFile(PANEL_JSON_FILE);
         JSONObject dashboard_object = new JSONObject(dashboard_json);
+        dashboard_object.getJSONObject("dashboard").put("title",dashboard.getTitle());
         for(Panel panel : dashboard.getPanels()){
             JSONObject panel_object = new JSONObject(panel_json);
             String sensorName = panel.getLot()+":"+panel.getSensor()+":"+panel.getSensorNumber();
-            panel_object.getJSONObject("targets").put("measurement",sensorName);
+            panel_object.getJSONArray("targets").getJSONObject(0).put("measurement",sensorName);
             panel_object.put("title",panel.getTitle());
             if(panel.getType() == Panel.PanelType.TABLE){
                 panel_object.put("type","table");
@@ -69,12 +73,14 @@ public class DashboardSerializer {
             }
             dashboard_object.getJSONObject("dashboards").getJSONArray("panels").put(panel_object);
         }
-        return null; //TODO
+        dashboard_object.getJSONObject("dashboard").getJSONObject("time").put("from",dashboard.getFrom());
+        dashboard_object.getJSONObject("dashboard").getJSONObject("time").put("to",dashboard.getTo());
+        return dashboard_object.toString();
     }
 
     public void saveDashboard(Dashboard dashboard) throws IOException {
         URL obj = new URL(url+DASHBOARD_URL);
-        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
         //add reuqest header
         con.setRequestMethod("POST");
@@ -83,11 +89,14 @@ public class DashboardSerializer {
 
         // Send post request
         con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        //DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        BufferedOutputStream os = new BufferedOutputStream(con.getOutputStream());
         String json = toJson(dashboard);
-        wr.writeChars(json);
-        wr.flush();
-        wr.close();
+        os.write(json.getBytes());
+        os.flush();
+
+        //wr.writeChars(json);
+        //wr.flush();
 
         int responseCode = con.getResponseCode();
         System.out.println("Response Code : " + responseCode);
@@ -104,6 +113,29 @@ public class DashboardSerializer {
 
         //print result
         System.out.println(response.toString());
+    }
+
+    public static void main(String[] args) throws IOException {
+        Dashboard d = new Dashboard();
+        d.setTitle("Test #"+new Random().nextInt());
+        d.setFrom(new Date(10000000));
+        d.setTo(new Date(20000000));
+        Panel p1 = new Panel();
+        p1.setTitle("panel1");
+        p1.setLot("School");
+        p1.setSensor("temperature random");
+        p1.setSensorNumber(0);
+        p1.setType(Panel.PanelType.GRAPH);
+        d.addPanel(p1);
+        Panel p2 = new Panel();
+        p2.setTitle("panel2");
+        p2.setLot("School");
+        p2.setSensor("temperature random");
+        p2.setSensorNumber(1);
+        p2.setType(Panel.PanelType.TABLE);
+        d.addPanel(p2);
+        DashboardSerializer ser = new DashboardSerializer("http://localhost:3000","eyJrIjoicjg3SmZuMFhoTWxLTEFoUDdUcUFNaUx2M1NENnFoRWgiLCJuIjoia2V5IiwiaWQiOjF9");
+        ser.saveDashboard(d);
     }
 
 }
