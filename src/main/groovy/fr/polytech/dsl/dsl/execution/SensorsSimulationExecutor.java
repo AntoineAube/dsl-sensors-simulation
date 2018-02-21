@@ -7,6 +7,8 @@ import fr.polytech.dsl.dsl.model.ModelVisitor;
 import fr.polytech.dsl.dsl.model.structures.Lot;
 import fr.polytech.dsl.dsl.model.structures.SensorsSimulation;
 import fr.polytech.dsl.dsl.model.structures.SimulationContent;
+import fr.polytech.dsl.dsl.model.structures.dashboards.Dashboard;
+import fr.polytech.dsl.dsl.model.structures.dashboards.Panel;
 import fr.polytech.dsl.dsl.model.structures.laws.*;
 import fr.polytech.dsl.dsl.model.structures.simulations.*;
 
@@ -126,6 +128,16 @@ public class SensorsSimulationExecutor implements ModelVisitor {
     @Override
     public void visit(UnknownSimulation unknownSimulation) {
         // nothing to do here
+    }
+
+    @Override
+    public void visit(Dashboard dashboard) {
+        // TODO Implement the execution.
+    }
+
+    @Override
+    public void visit(Panel panel) {
+        // TODO Implement the execution.
     }
 
     @Override

@@ -5,6 +5,8 @@ import fr.polytech.dsl.dsl.model.VisitableModel;
 import fr.polytech.dsl.dsl.model.structures.Lot;
 import fr.polytech.dsl.dsl.model.structures.SensorsSimulation;
 import fr.polytech.dsl.dsl.model.structures.SimulationContent;
+import fr.polytech.dsl.dsl.model.structures.dashboards.Dashboard;
+import fr.polytech.dsl.dsl.model.structures.dashboards.Panel;
 import fr.polytech.dsl.dsl.model.structures.laws.*;
 import fr.polytech.dsl.dsl.model.structures.simulations.*;
 import fr.polytech.dsl.dsl.validation.reporting.ValidationReport;
@@ -39,6 +41,8 @@ public class SensorsSimulationValidator implements ModelVisitor {
         laws.forEach(law -> law.accept(this));
 
         sensorsSimulation.getSimulation().accept(this);
+
+        sensorsSimulation.getDashboard().accept(this);
     }
 
     @Override
@@ -152,6 +156,18 @@ public class SensorsSimulationValidator implements ModelVisitor {
     @Override
     public void visit(UnknownSimulation unknownSimulation) {
         unknownSimulation.getAssociatedLaw().accept(this);
+    }
+
+    @Override
+    public void visit(Dashboard dashboard) {
+        // TODO Implement the validation. Check dates, title.
+
+        dashboard.getPanels().forEach(panel -> panel.accept(this));
+    }
+
+    @Override
+    public void visit(Panel panel) {
+        // TODO Implement the validation. Check that the lot, the sensors and the numbers exists in the model.
     }
 
     private void checkNamesValidity(String modelName, VisitableModel source, List<String> names) {

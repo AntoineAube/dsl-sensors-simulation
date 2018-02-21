@@ -21,10 +21,10 @@ simulation {
 dashboard ("Prout"){
     from "20171"
     to ""
-    graph ("Croute"){
+
+    graph ("Croute") {
         lot 'School'
         sensor 'place'
         number 2
     }
-
 }

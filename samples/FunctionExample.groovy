@@ -17,24 +17,3 @@ simulation {
         }
     }
 }
-
-display {
-    dashboard ('DashboardName') {
-        panel ('PanelName') is graph {
-            description 'Description'
-            draw bars
-            draw lines {
-                with staircase
-                opacity 5
-                width 5
-            }
-            draw points with radius 5
-        }
-        panel ('PanelName') is table {
-
-        }
-    }
-}
-
-
-Graph / Table

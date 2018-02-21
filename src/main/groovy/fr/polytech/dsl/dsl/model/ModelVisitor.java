@@ -3,6 +3,8 @@ package fr.polytech.dsl.dsl.model;
 import fr.polytech.dsl.dsl.model.structures.Lot;
 import fr.polytech.dsl.dsl.model.structures.SensorsSimulation;
 import fr.polytech.dsl.dsl.model.structures.SimulationContent;
+import fr.polytech.dsl.dsl.model.structures.dashboards.Dashboard;
+import fr.polytech.dsl.dsl.model.structures.dashboards.Panel;
 import fr.polytech.dsl.dsl.model.structures.laws.*;
 import fr.polytech.dsl.dsl.model.structures.simulations.*;
 
@@ -23,4 +25,7 @@ public interface ModelVisitor {
     void visit(InterpolateSimulation interpolateSimulation);
     void visit(FunctionSimulation functionSimulation);
     void visit(UnknownSimulation unknownSimulation);
+
+    void visit(Dashboard dashboard);
+    void visit(Panel panel);
 }

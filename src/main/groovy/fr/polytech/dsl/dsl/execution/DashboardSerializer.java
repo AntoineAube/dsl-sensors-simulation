@@ -1,7 +1,7 @@
 package fr.polytech.dsl.dsl.execution;
 
-import fr.polytech.dsl.dsl.model.structures.grafana.Dashboard;
-import fr.polytech.dsl.dsl.model.structures.grafana.Panel;
+import fr.polytech.dsl.dsl.model.structures.dashboards.Dashboard;
+import fr.polytech.dsl.dsl.model.structures.dashboards.Panel;
 import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -67,7 +67,7 @@ public class DashboardSerializer {
             if(panel.getType() == Panel.PanelType.GRAPH){
                 panel_object.put("type","graph");
             }
-            dashboard_object.getJSONObject("dashboard").getJSONArray("panels").put(panel_object);
+            dashboard_object.getJSONObject("dashboards").getJSONArray("panels").put(panel_object);
         }
         return null; //TODO
     }

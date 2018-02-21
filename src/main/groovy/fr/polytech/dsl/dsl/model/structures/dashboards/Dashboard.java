@@ -1,5 +1,9 @@
-package fr.polytech.dsl.dsl.model.structures.grafana;
+package fr.polytech.dsl.dsl.model.structures.dashboards;
 
+import fr.polytech.dsl.dsl.model.ModelVisitor;
+import fr.polytech.dsl.dsl.model.VisitableModel;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,12 +12,16 @@ import java.util.List;
  *
  * @author Robin Alonzo
  */
-public class Dashboard {
+public class Dashboard implements VisitableModel {
 
     private String title;
-    private List<Panel> panels;
+    private final List<Panel> panels;
     private Date from;
     private Date to;
+
+    public Dashboard() {
+        panels = new ArrayList<>();
+    }
 
     public String getTitle() {
         return title;
@@ -25,10 +33,6 @@ public class Dashboard {
 
     public List<Panel> getPanels() {
         return panels;
-    }
-
-    public void setPanels(List<Panel> panels) {
-        this.panels = panels;
     }
 
     public Date getFrom() {
@@ -47,5 +51,8 @@ public class Dashboard {
         this.to = to;
     }
 
-
+    @Override
+    public void accept(ModelVisitor visitor) {
+        visitor.visit(this);
+    }
 }
