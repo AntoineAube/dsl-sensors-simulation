@@ -3,7 +3,7 @@
   "targets": [
     {
       "groupBy": [],
-      "measurement": "", //"School:day:0"
+      "measurement": "",
       "orderByTime": "ASC",
       "policy": "autogen",
       "refId": "A",
