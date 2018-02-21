@@ -42,7 +42,7 @@ public class SensorsSimulationValidator implements ModelVisitor {
 
         sensorsSimulation.getSimulation().accept(this);
 
-        sensorsSimulation.getDashboard().accept(this);
+        sensorsSimulation.getDashboards().forEach(dashboard -> dashboard.accept(this));
     }
 
     @Override

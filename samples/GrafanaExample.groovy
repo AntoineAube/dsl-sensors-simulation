@@ -18,13 +18,15 @@ simulation {
     }
 }
 
-dashboard ("Prout"){
-    from "24/04/2017 15:01"
-    to "25/04/2017 15:00"
+visualization {
+    dashboard ("Prout"){
+        from "24/04/2017 15:01"
+        to "25/04/2017 15:00"
 
-    graph ("Croute") {
-        lot 'School'
-        sensor 'place'
-        number 2
+        graph ("Croute") {
+            lot 'School'
+            sensor 'place'
+            number 2
+        }
     }
 }

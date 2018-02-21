@@ -12,12 +12,12 @@ public class SensorsSimulation implements VisitableModel {
 
     private final List<Law> laws;
     private final SimulationContent simulation;
-    private final Dashboard dashboard;
+    private final List<Dashboard> dashboards;
 
     public SensorsSimulation() {
         laws = new ArrayList<>();
         simulation = new SimulationContent();
-        dashboard = new Dashboard();
+        dashboards = new ArrayList<>();
     }
 
     public List<Law> getLaws() {
@@ -28,8 +28,8 @@ public class SensorsSimulation implements VisitableModel {
         return simulation;
     }
 
-    public Dashboard getDashboard() {
-        return dashboard;
+    public List<Dashboard> getDashboards() {
+        return dashboards;
     }
 
     @Override

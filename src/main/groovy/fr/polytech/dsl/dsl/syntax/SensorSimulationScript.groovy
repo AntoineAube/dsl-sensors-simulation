@@ -1,7 +1,7 @@
 package fr.polytech.dsl.dsl.syntax
 
 import fr.polytech.dsl.dsl.SensorSimulationBinding
-import fr.polytech.dsl.dsl.syntax.scopes.dashboards.DashboardScope
+import fr.polytech.dsl.dsl.syntax.scopes.VisualizationScope
 import fr.polytech.dsl.dsl.syntax.scopes.LawsScope
 import fr.polytech.dsl.dsl.syntax.scopes.SimulationScope
 
@@ -21,12 +21,10 @@ abstract class SensorSimulationScript extends Script {
         simulationContent()
     }
 
-    def dashboard(String dashboardName, Closure dashboardDescription) {
-        ((SensorSimulationBinding) binding).sensorsSimulation.dashboard.title = dashboardName
+    def visualization(Closure visualizationContent) {
+        visualizationContent.delegate = new VisualizationScope((SensorSimulationBinding) getBinding())
+        visualizationContent.resolveStrategy = Closure.DELEGATE_FIRST
 
-        dashboardDescription.delegate = new DashboardScope((SensorSimulationBinding) getBinding())
-        dashboardDescription.resolveStrategy = Closure.DELEGATE_FIRST
-
-        dashboardDescription()
+        visualizationContent()
     }
 }

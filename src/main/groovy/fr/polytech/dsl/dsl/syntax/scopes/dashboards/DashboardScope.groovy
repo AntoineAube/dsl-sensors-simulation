@@ -1,6 +1,7 @@
 package fr.polytech.dsl.dsl.syntax.scopes.dashboards
 
 import fr.polytech.dsl.dsl.SensorSimulationBinding
+import fr.polytech.dsl.dsl.model.structures.dashboards.Dashboard
 import fr.polytech.dsl.dsl.model.structures.dashboards.Panel
 import fr.polytech.dsl.dsl.model.structures.dashboards.Panel.PanelType
 
@@ -9,9 +10,11 @@ import java.text.SimpleDateFormat
 class DashboardScope {
 
     private final SensorSimulationBinding binding
+    private final Dashboard targetedDashboard
 
-    DashboardScope(SensorSimulationBinding binding) {
+    DashboardScope(SensorSimulationBinding binding, Dashboard targetedDashboard) {
         this.binding = binding
+        this.targetedDashboard = targetedDashboard
     }
 
     private def makePanel(String panelName, PanelType chosenType, Closure panelParameters) {
@@ -23,7 +26,7 @@ class DashboardScope {
 
         panelParameters()
 
-        binding.sensorsSimulation.dashboard.panels.add(addedPanel)
+        targetedDashboard.panels.add(addedPanel)
     }
 
     def graph(String panelName, Closure graphContent) {
@@ -39,7 +42,7 @@ class DashboardScope {
 
         Date fromDate = format.parse(stringifiedDate)
 
-        binding.sensorsSimulation.dashboard.from = fromDate
+        targetedDashboard.from = fromDate
     }
 
     def to(String stringifiedDate) {
@@ -47,6 +50,6 @@ class DashboardScope {
 
         Date toDate = format.parse(stringifiedDate)
 
-        binding.sensorsSimulation.dashboard.to = toDate
+        targetedDashboard.to = toDate
     }
 }
