@@ -18,11 +18,13 @@ class PanelScope {
     }
 
     def sensor(String sensorName) {
-        targetedPanel.sensor = targetedPanel.lot.simulations.stream()
-                .map({bundle -> bundle.simulation})
-                .filter({simulation -> simulation.sensorName == sensorName})
-                .findFirst()
-                .orElse(null)
+        if (targetedPanel.lot != null) {
+            targetedPanel.sensor = targetedPanel.lot.simulations.stream()
+                    .map({ bundle -> bundle.simulation })
+                    .filter({ simulation -> simulation.sensorName == sensorName })
+                    .findFirst()
+                    .orElse(null)
+        }
     }
 
     def number(int sensorNumber) {
