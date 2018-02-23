@@ -106,6 +106,10 @@ public class DashboardSerializer {
         int responseCode = con.getResponseCode();
         System.out.println("Response Code : " + responseCode);
 
+        if(responseCode == 401){
+            System.out.println("ERROR : Unauthorized. The API key is not specified or doesn't work.");
+        }
+
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
         String inputLine;
