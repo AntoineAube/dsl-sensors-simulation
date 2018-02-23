@@ -11,6 +11,8 @@ import groovy.time.BaseDuration
 import groovy.time.Duration
 import groovy.time.TimeDuration
 
+import java.text.SimpleDateFormat
+
 class LotScope {
 
     private final SensorSimulationBinding binding
@@ -47,11 +49,23 @@ class LotScope {
                 }, during: {BaseDuration duration ->
                     simulation.duration = duration.toMilliseconds()
 
+                    def fromSpecification = [from: { String stringDate ->
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm")
+
+                        Date fromDate = format.parse(stringDate)
+
+                        simulation.dateFrom = fromDate.getTime()
+                    }]
+
                     [at: {SamplingFrequency frequency ->
                         simulation.samplingFrequency = frequency
+
+                        fromSpecification
                     },
                      sampleEvery: {BaseDuration period ->
                          simulation.samplingFrequency = new SamplingFrequency((double) 1000 / period.toMilliseconds())
+
+                         fromSpecification
                      }]
                 }]
             }]

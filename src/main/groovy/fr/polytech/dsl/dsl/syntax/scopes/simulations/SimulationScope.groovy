@@ -24,7 +24,7 @@ abstract class SimulationScope {
 
         Date fromDate = format.parse(string)
 
-        simulation.setDateFrom(fromDate.getTime())
+        simulation.dateFrom = fromDate.getTime()
     }
 
     def noise(List<Integer> noiseValues) {
