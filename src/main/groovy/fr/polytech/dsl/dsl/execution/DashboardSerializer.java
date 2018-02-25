@@ -30,7 +30,6 @@ public class DashboardSerializer {
     public DashboardSerializer(String serverURL, String apiKey) {
         this.url = serverURL;
         this.apiKey = apiKey;
-        System.out.println(apiKey);
     }
 
     private String getFile(String fileName) {
@@ -79,7 +78,6 @@ public class DashboardSerializer {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dashboard_object.getJSONObject("dashboard").getJSONObject("time").put("from",format.format(dashboard.getFrom()));
         dashboard_object.getJSONObject("dashboard").getJSONObject("time").put("to",format.format(dashboard.getTo()));
-        System.out.println(dashboard_object.toString());
         return dashboard_object.toString();
     }
 
@@ -121,7 +119,7 @@ public class DashboardSerializer {
         in.close();
 
         //print result
-        System.out.println(response.toString());
+        //System.out.println(response.toString());
     }
 
     public static void main(String[] args) throws IOException {

@@ -11,7 +11,7 @@ laws {
 simulation {
     lot ('Function') {
         contains 1 sensors 'place' following 'occupancy' parameterized {
-            during 1.year sampleEvery 1.minute
+            during 1.week sampleEvery 1.minute
 
             period 3.hours
         }

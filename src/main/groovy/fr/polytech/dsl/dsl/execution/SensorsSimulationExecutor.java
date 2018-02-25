@@ -135,12 +135,14 @@ public class SensorsSimulationExecutor implements ModelVisitor {
 
     @Override
     public void visit(Dashboard dashboard) {
+        System.out.println("Sending dashboard to Grafana...");
         DashboardSerializer serializer = new DashboardSerializer("http://localhost:3000", configuration.getGrafanaAPIKey());
         try {
             serializer.saveDashboard(dashboard);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Done.");
     }
 
     @Override
@@ -174,9 +176,8 @@ public class SensorsSimulationExecutor implements ModelVisitor {
     }
 
     public void sendMeasures(DatabaseConfiguration configuration) {
-
+        System.out.println("Generating sensor data...");
         MeasureSerializer serializer = new MeasureSerializer(configuration);
-
         for (Executor exec : executors) {
 //            System.out.print("|");
             while (!exec.hasFinished()){
@@ -186,7 +187,8 @@ public class SensorsSimulationExecutor implements ModelVisitor {
                     serializer.saveMeasure(measure);
                 }
             }
-            System.out.print("\n");
+            //System.out.print("\n");
         }
+        System.out.println("Done.");
     }
 }

@@ -30,7 +30,6 @@ simulation {
             period 1.hour
             sampleEvery 10.minute
             during 1.day
-            noise (-2..3)
         }
     }
 }

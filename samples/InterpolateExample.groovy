@@ -12,9 +12,24 @@ laws {
 simulation {
     lot ('Interpolate') {
         contains 1 sensors 'place' following 'occupancy' parameterized {
-            during 1.year sampleEvery 1.minute
+            from "01/01/2017 00:00"
+            during 1.week sampleEvery 1.minute
 
-            period 3.hours
+            period 24.hours
         }
+    }
+}
+
+visualization {
+    dashboard ("Interpolation"){
+        from "01/01/2017 00:00"
+        to "07/01/2017 00:00"
+
+        graph("Occupancy"){
+            lot 'Interpolate'
+            sensor 'place'
+            number 0
+        }
+
     }
 }
