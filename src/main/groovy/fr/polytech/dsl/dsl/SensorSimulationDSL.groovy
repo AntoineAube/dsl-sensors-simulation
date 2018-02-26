@@ -2,6 +2,7 @@ package fr.polytech.dsl.dsl
 
 import fr.polytech.dsl.dsl.execution.DatabaseConfiguration
 import fr.polytech.dsl.dsl.execution.SensorsSimulationExecutor
+import fr.polytech.dsl.dsl.model.structures.SensorsSimulation
 import fr.polytech.dsl.dsl.model.structures.laws.InterpolateLaw
 import fr.polytech.dsl.dsl.model.structures.laws.Law
 import fr.polytech.dsl.dsl.validation.ModelValidationException
@@ -78,6 +79,10 @@ class SensorSimulationDSL {
         binding.sensorsSimulation.accept(executor)
 
         executor.sendMeasures(databaseConfiguration)
+    }
+
+    SensorsSimulation getModel() {
+        return binding.sensorsSimulation
     }
 
     static void displayReport(ValidationReport report) {

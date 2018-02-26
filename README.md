@@ -12,6 +12,8 @@
 
 To start InfluxDB and Grafana, run ``docker-compose up``.
 
-To compile the project, tun ``mvn package``.
+To compile the project, run ``mvn package``.
 
 Tu run a script, run ``mvn exec:java -Dexec.mainClass="fr.polytech.dsl.main.Main" -Dexec.args="-s <script.groovy> -k <Grafana API key>"``
+
+You can find samples in the "samples" directory.
