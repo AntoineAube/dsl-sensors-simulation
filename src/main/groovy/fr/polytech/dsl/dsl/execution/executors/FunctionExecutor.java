@@ -3,7 +3,9 @@ package fr.polytech.dsl.dsl.execution.executors;
 import fr.polytech.dsl.dsl.execution.Measure;
 import fr.polytech.dsl.dsl.execution.executors.Executor;
 import fr.polytech.dsl.dsl.model.structures.laws.FunctionLaw.FunctionCase;
+import fr.polytech.dsl.dsl.model.structures.simulations.modifications.Noise;
 
+import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -14,11 +16,12 @@ public class FunctionExecutor extends Executor{
     private double nextUnscaledVariable;
     private Set<FunctionCase> functions;
     private Function<Double, Object> otherwise;
+    private Random rand = new Random();
 
     public FunctionExecutor(String name,
                             long dateFrom,
                             long duration,
-                            fr.polytech.dsl.dsl.model.structures.simulations.modifications.Noise noise,
+                            Noise noise,
                             double samplingPeriod,
                             double min,
                             double max,
@@ -54,6 +57,9 @@ public class FunctionExecutor extends Executor{
         Object value = function.apply(variable);
         if (value instanceof Double){
             value = (Integer)((Double) value).intValue();
+            if(noise.getNoiseValues().size() > 0){
+                value = (Integer)value + noise.getNoiseValues().get(rand.nextInt(noise.getNoiseValues().size()));
+            }
         }
 
         Measure measure = new Measure(lastTimeGet, value, name);

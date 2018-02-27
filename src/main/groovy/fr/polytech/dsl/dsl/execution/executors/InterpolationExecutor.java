@@ -3,11 +3,13 @@ package fr.polytech.dsl.dsl.execution.executors;
 import fr.polytech.dsl.dsl.execution.Measure;
 import fr.polytech.dsl.dsl.execution.executors.Executor;
 import fr.polytech.dsl.dsl.model.structures.laws.InterpolateLaw.Point;
+import fr.polytech.dsl.dsl.model.structures.simulations.modifications.Noise;
 import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class InterpolationExecutor extends Executor {
     private PolynomialSplineFunction function;
@@ -15,11 +17,12 @@ public class InterpolationExecutor extends Executor {
     private double offset;
     private double period;
     private double nextUnscaledVariable;
+    private Random rand = new Random();
 
     public InterpolationExecutor(String name,
                                  long dateFrom,
                                  long duration,
-                                 fr.polytech.dsl.dsl.model.structures.simulations.modifications.Noise noise,
+                                 Noise noise,
                                  double samplingPeriod,
                                  double min,
                                  double max,
@@ -63,6 +66,9 @@ public class InterpolationExecutor extends Executor {
         variable += offset;
 
         Integer value = (Integer)((int)function.value(variable));
+        if(noise.getNoiseValues().size() > 0){
+            value += noise.getNoiseValues().get(rand.nextInt(noise.getNoiseValues().size()));
+        }
         Measure measure = new Measure(lastTimeGet, value, name);
 
         nextUnscaledVariable += samplingPeriod;

@@ -14,7 +14,7 @@ simulation {
         contains 1 sensors 'place' following 'occupancy' parameterized {
             from "01/01/2017 00:00"
             during 1.week sampleEvery 1.minute
-
+            noise 0..5
             period 24.hours
         }
     }
